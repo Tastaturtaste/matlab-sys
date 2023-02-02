@@ -2,12 +2,20 @@
 name = "matlab-sys"
 version = "0.1.0"
 edition = "2021"
+authors = ["Tatstaturtaste <joshua.moellers@gmx.net>"]
+readme = "../README.md"
+license = "MIT OR Apache-2.0"
+description = "Rust bindings for the Matlab C API"
+keywords = ["matlab", "mex", "scientific", "matrix", "engineering", "sys"]
+categories = ["external-ffi-bindings", "api-bindings"]
+repository = "https://github.com/Tastaturtaste/matlab-sys"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
 
 [features]
+# Use the modern interleaved complex api available since Matlab 2018a. Mutually exlusive with the feature 'separate-complex'.
 interleaved-complex = []
+# Use the old separate complex api. Mutually exclusive with the feature 'interleaved-complex'.
 separate-complex = []
-default = ["interleaved-complex"]
+# Link with the necessary runtime libraries provided by matlab. The path to the matlab installation to be used has to be specified in the environment variable 'MATLABPATH'. Alternatively the libary can be specified in a .config file with the rustc-link-lib and rustc-link-search keys (https://doc.rust-lang.org/cargo/reference/config.html).
+link-lib = []
+default = ["interleaved-complex", "link-lib"]

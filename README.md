@@ -1,5 +1,5 @@
 # matlab-sys
-matlab-sys provides low level bindings to Matlabs C API to allow writing [MEX functions](https://de.mathworks.com/help/matlab/call-mex-files-1.html?s_tid=CRUX_lftnav) in Rust while using the [C Matrix API](https://de.mathworks.com/help/matlab/cc-mx-matrix-library.html?s_tid=CRUX_lftnav) and interact with [C MAT API](https://de.mathworks.com/help/matlab/matlab-c-api-to-read-mat-file-data.html?s_tid=CRUX_lftnav)  
+matlab-sys provides low level bindings to Matlabs C API to allow writing [MEX functions](https://de.mathworks.com/help/matlab/call-mex-files-1.html?s_tid=CRUX_lftnav) in Rust while using the [C Matrix API](https://de.mathworks.com/help/matlab/cc-mx-matrix-library.html?s_tid=CRUX_lftnav) and interacting with the [C MAT API](https://de.mathworks.com/help/matlab/matlab-c-api-to-read-mat-file-data.html?s_tid=CRUX_lftnav).  
 
 ## Usage
 To make use of the functionality provided by this crate it has to be linked against the library files 'libmex.lib', 'libmx.lib' and 'libmat.lib' provided by your installation of Matlab. To find these libraries define the environment variable 'MATLABPATH' with the path to your Matlab installation as its value.  
@@ -14,7 +14,7 @@ pub unsafe extern "C" fn mexFunction(
     prhs: *const *const mxArray,
 )
 ```
-After building it can simply be renamed into a *.mexw64 for windows or a *.mexa64 for linux.
+After building the build artifact can simply be renamed into a *.mexw64 for windows or a *.mexa64 for linux, where the filename is the name of the function callable in Matlab.
 
 ## Features
 ### separate-complex  

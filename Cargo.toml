@@ -1,2 +1,2 @@
 [workspace]
-members = ["matlab-sys", "xtask"]
+members = ["matlab-sys", "xtask", "mex-examples/array-product"]

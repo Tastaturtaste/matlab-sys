@@ -1,3 +1,5 @@
+//! This example is intended to show how to convert a mex function from C to Rust. To this end the [arrayProduct](https://de.mathworks.com/help/matlab/matlab_external/standalone-example.html) example is converted verbatim into Rust using the matlab-sys crate.
+
 use matlab_sys::raw as bindings;
 use std::ffi::{c_double, c_int, CString};
 

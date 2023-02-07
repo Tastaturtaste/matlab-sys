@@ -14,6 +14,7 @@ pub unsafe extern "C" fn mexFunction(
     prhs: *const *const mxArray,
 )
 ```
+For an example of how to write a mex function using this crate look into the mex-examples directory. 
 After building the build artifact can simply be renamed into a *.mexw64 for windows or a *.mexa64 for linux, where the filename is the name of the function callable in Matlab.
 
 ## Features

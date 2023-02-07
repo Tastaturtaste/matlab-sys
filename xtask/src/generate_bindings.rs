@@ -73,19 +73,6 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         .generate()?
         .to_string();
 
-    // let type_replacements = std::collections::BTreeMap::from_iter([
-    //     ("int8_T", "i8"),
-    //     ("uint8_T", "u8"),
-    //     ("int16_T", "i16"),
-    //     ("uint16_T", "u16"),
-    //     ("int32_T", "i32"),
-    //     ("uint32_T", "u32"),
-    //     ("int64_T", "i64"),
-    //     ("uint64_T", "u64"),
-    //     ("mwIndex", "usize"),
-    //     ("mwSize", "usize"),
-    //     ("mwSignedIndex", "isize"),
-    // ]);
     let type_replacements = std::collections::BTreeMap::from_iter([
         ("mxDouble", "f64"),
         ("mxSingle", "f32"),

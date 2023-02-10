@@ -6,7 +6,7 @@ authors = ["Tatstaturtaste <joshua.moellers@gmx.net>"]
 readme = "../README.md"
 license = "MIT OR Apache-2.0"
 description = "Rust bindings for the Matlab C API"
-keywords = ["matlab", "mex", "scientific", "matrix", "engineering", "sys"]
+keywords = ["matlab", "mex", "scientific", "matrix", "sys"]
 categories = ["external-ffi-bindings", "api-bindings"]
 repository = "https://github.com/Tastaturtaste/matlab-sys"
 

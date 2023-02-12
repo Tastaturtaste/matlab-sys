@@ -1,10 +1,15 @@
 //! This example is intended to show how to convert a mex function from C to Rust. To this end the [arrayProduct](https://de.mathworks.com/help/matlab/matlab_external/standalone-example.html) example is converted verbatim into Rust using the matlab-sys crate.
 
+// Allow non-snake-case names for this example to stay as close to the C-Code as possible for comparability.
+#![allow(non_snake_case)]
+
 use matlab_sys::raw as bindings;
 use std::ffi::{c_double, c_int, CString};
 
 fn mexErrMsgIdAndTxt(identifier: &str, err_msg: &str) {
     unsafe {
+        // rustc warns against the usage of pointers to temporary CStrings since they get destructed at the end of the statement and usually this is a problem. In this case the function must return first for the statement to end, which means the pointers to the temporary strings cannot dangle.
+        #[allow(temporary_cstring_as_ptr)]
         bindings::mexErrMsgIdAndTxt(
             CString::new(identifier)
                 .expect("The passed string slice should not have internal 0 bytes")

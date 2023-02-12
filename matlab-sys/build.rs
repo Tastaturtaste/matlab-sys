@@ -4,15 +4,31 @@ fn main() {
     if env::var("CARGO_FEATURE_LINK_LIB").is_err() {
         return;
     }
+    // Currently all environment variables are assumed to be and contain valid utf-8. If this does not apply to your use-case please consider reporting this as an issue at https://github.com/Tastaturtaste/matlab-sys/issues.
+    // In the meantime this build script can be circumvented by using a cargo .config file with the links key. https://doc.rust-lang.org/cargo/reference/config.html#targettriplelinks.
     let matlabpath = env::var("MATLABPATH").expect(
-        "Environment variable 'MATLABPATH' with path to matlab install directory not found",
+        "Environment variable 'MATLABPATH' with path to matlab install directory not found. Make sure to create the environment variable 'MATLABPATH' with the path to the matlab installation.",
+    );
+    // For better error messages check if the path provided by the MATLABPATH environment variable actually exists and is readable.
+    assert!(
+        std::path::Path::new(&matlabpath)
+            .try_exists()
+            .expect(&format!("Cannot check existence of path {matlabpath}")),
+        "The path to the matlab installation does not exist: {matlabpath}"
     );
 
     // Tell cargo to look for shared libraries in the specified directory. This is platform specific and currently only windows is supported.
     // TODO: Generalize for other platforms like linux or mac
-    if env::var("CARGO_CFG_WINDOWS").is_err() {
-        eprintln!("Non-windows targets are currently unsupported.")
-    }
+    let platform = match env::var("CARGO_CFG_TARGET_OS")
+        .as_deref()
+        .expect("Environment variable 'CARGO_CFG_TARGET_OS' not found.")
+    {
+        "windows" => OS::Windows,
+        "linux" => OS::Linux,
+        "macos" => OS::MacOS,
+        unsupported_target => panic!("Target {unsupported_target} are currently unsupported."),
+    };
+    assert_eq!(platform, OS::Windows, "Currently only windows is supported. Please raise an issue at https://github.com/Tastaturtaste/matlab-sys/issues with a description of your environment.");
     let mut link_search_path = format!("{matlabpath}/extern/lib/win64/");
     // This value is defined as the empty string if it is not needed for disambiguation for historical reasons
     // The possible values are
@@ -23,10 +39,52 @@ fn main() {
         "musl" | "sgx" | "" => unimplemented!("Linking against the libraries for the provided target abi {target_env} is currently not implemented"),
         _ => unreachable!("The possible values for target_env can only be the ones checked against above according to https://doc.rust-lang.org/reference/conditional-compilation.html#target_env"),
     }
+    assert!(
+        std::path::Path::new(&link_search_path)
+            .try_exists()
+            .expect(&format!(
+                "Cannot check existence of path {link_search_path}"
+            )),
+        "The path to the matlab link libraries does not exist: {link_search_path}"
+    );
     println!("cargo:rustc-link-search={link_search_path}");
 
-    // Tell cargo to tell rustc to link the matlab libmex library
-    println!("cargo:rustc-link-lib=libmex");
-    println!("cargo:rustc-link-lib=libmx");
-    println!("cargo:rustc-link-lib=libmat");
+    // Check if all required libraries are present and instruct cargo to link them.
+    check_link_lib_existence_and_queue_link(&link_search_path, "libmex", platform);
+    check_link_lib_existence_and_queue_link(&link_search_path, "libmx", platform);
+    check_link_lib_existence_and_queue_link(&link_search_path, "libmat", platform);
+}
+
+fn check_link_lib_existence_and_queue_link(search_path: &str, libname: &str, platform: OS) {
+    assert!(
+        std::path::Path::new(&format!(
+            "{search_path}{}",
+            add_link_lib_extension(libname, platform)
+        ))
+        .try_exists()
+        .expect(&format!(
+            "Cannot check existence of path {search_path}{}",
+            add_link_lib_extension(libname, platform)
+        )),
+        "The path to the matlab link libraries does not exist: {search_path}libmex"
+    );
+    print!("cargo:rustc-link-lib=");
+    println!("{libname}");
+}
+
+fn add_link_lib_extension(name: impl Into<String>, platform: OS) -> String {
+    let mut name = name.into();
+    match platform {
+        OS::Windows => name.push_str(".lib"),
+        OS::Linux => name.push_str(".so"),
+        OS::MacOS => name.push_str(".dylib"),
+    }
+    name
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum OS {
+    Windows,
+    Linux,
+    MacOS,
 }

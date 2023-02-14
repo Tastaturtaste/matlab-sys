@@ -55,6 +55,7 @@ fn main() {
     check_link_lib_existence_and_queue_link(&link_search_path, "libmex", platform);
     check_link_lib_existence_and_queue_link(&link_search_path, "libmx", platform);
     check_link_lib_existence_and_queue_link(&link_search_path, "libmat", platform);
+    check_link_lib_existence_and_queue_link(&link_search_path, "libeng", platform)
 }
 
 fn check_link_lib_existence_and_queue_link(search_path: &str, libname: &str, platform: OS) {

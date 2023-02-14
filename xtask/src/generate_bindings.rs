@@ -47,7 +47,7 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         .layout_tests(false) // Disabled since they do not work correctly if the bindings are used on a different architecture than the one they are generated on, e.g. 32bit/64bit difference.
         .use_core();
 
-    // The passed defines and options for both api versions were exracted from a dry run of the mex command in matlab with windows 10.
+    // The passed defines and options for both api versions were extracted from a dry run of the mex command in matlab with windows 10.
     let bindings_700 = bindings_common
         .clone()
         .clang_args([

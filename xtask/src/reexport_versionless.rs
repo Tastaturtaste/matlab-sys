@@ -66,6 +66,10 @@ pub fn reexport_versionless(mut arguments: pico_args::Arguments) -> anyhow::Resu
                 reexport_writer.write_all(format!("{},\n", const_name).as_bytes())?;
             } else if let Some(captures) = struct_pattern.captures(&line) {
                 let struct_name = &captures[1];
+                // Skip the struct `engine` specifically as it gets aliased by the type alias `Engine`, which is the public and documented type.
+                if struct_name == "engine" {
+                    continue;
+                }
                 reexport_writer.write_all(format!("{struct_name},\n").as_bytes())?;
             }
         }

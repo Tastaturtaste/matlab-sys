@@ -38,6 +38,7 @@ pub type fn_mex_set_local_function_table = ::core::option::Option<
 >;
 pub type MATFile = MatFile_tag;
 pub type matError = ::core::ffi::c_int;
+pub type Engine = engine;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct _iobuf {
@@ -130,6 +131,11 @@ pub struct _mexInitTermTableEntry {
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct MatFile_tag {
+    _unused: [u8; 0],
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct engine {
     _unused: [u8; 0],
 }
 pub const mxMAXNAM: u32 = 64;
@@ -511,4 +517,26 @@ extern "C" {
         pMF: *mut MATFile,
         num: *mut ::core::ffi::c_int,
     ) -> *mut *mut ::core::ffi::c_char;
+    pub fn engEvalString(ep: *mut Engine, string: *const ::core::ffi::c_char)
+        -> ::core::ffi::c_int;
+    pub fn engOpenSingleUse(
+        startcmd: *const ::core::ffi::c_char,
+        reserved: *mut ::core::ffi::c_void,
+        retstatus: *mut ::core::ffi::c_int,
+    ) -> *mut Engine;
+    pub fn engSetVisible(ep: *mut Engine, newVal: bool) -> ::core::ffi::c_int;
+    pub fn engGetVisible(ep: *mut Engine, bVal: *mut bool) -> ::core::ffi::c_int;
+    pub fn engOpen(startcmd: *const ::core::ffi::c_char) -> *mut Engine;
+    pub fn engClose(ep: *mut Engine) -> ::core::ffi::c_int;
+    pub fn engGetVariable(ep: *mut Engine, name: *const ::core::ffi::c_char) -> *mut mxArray;
+    pub fn engPutVariable(
+        ep: *mut Engine,
+        var_name: *const ::core::ffi::c_char,
+        ap: *const mxArray,
+    ) -> ::core::ffi::c_int;
+    pub fn engOutputBuffer(
+        ep: *mut Engine,
+        buffer: *mut ::core::ffi::c_char,
+        buflen: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }

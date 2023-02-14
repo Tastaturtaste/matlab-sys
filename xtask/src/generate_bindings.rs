@@ -20,8 +20,10 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         .write(true)
         .open(temp_file_name)?;
 
-    temp_file
-        .write_all("#include \"mex.h\"\n#include \"matrix.h\"\n#include \"mat.h\"\n".as_bytes())?;
+    temp_file.write_all(
+        "#include \"mex.h\"\n#include \"matrix.h\"\n#include \"mat.h\"\n#include \"engine.h\"\n"
+            .as_bytes(),
+    )?;
     // binding settings common for both api versions
     let bindings_common = bindgen::Builder::default()
         .clang_arg(&format!("-I{}", matlab_include_path.to_str().unwrap()))
@@ -36,6 +38,8 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         .allowlist_function("mat.*")
         .allowlist_type("mat.*")
         .allowlist_var("mat.*")
+        .allowlist_function("eng.*")
+        .allowlist_type("Engine")
         .allowlist_type("fn_.*")
         .blocklist_type("u{0,1}int[0-9]{1,2}_T")
         .sort_semantically(true)

@@ -10,6 +10,8 @@ keywords = ["matlab", "mex", "scientific", "matrix", "sys"]
 categories = ["external-ffi-bindings", "api-bindings"]
 repository = "https://github.com/Tastaturtaste/matlab-sys"
 
+# Tell cargo and other crates that we link against the Matlab API. "mex" would be another sensible links value, but since not only the mex API but also the matrix, mat and engine API are linked, "matlab" as the more general value is preferred. 
+links = "matlab"
 
 [features]
 # Use the modern interleaved complex api available since Matlab 2018a. Mutually exlusive with the feature 'separate-complex'.

@@ -66,6 +66,14 @@ pub fn reexport_versionless(mut arguments: pico_args::Arguments) -> anyhow::Resu
                 reexport_writer.write_all(format!("{},\n", const_name).as_bytes())?;
             } else if let Some(captures) = struct_pattern.captures(&line) {
                 let struct_name = &captures[1];
+                // Skip the types with leading underscore as they are not part of the intended public API and only used as for type aliases.
+                if struct_name.chars().next() == Some('_') {
+                    continue;
+                }
+                // Skip the types with a _tag or _Tag suffix as they are not part of the intended public API and only used for type aliases.
+                if struct_name.ends_with("_tag") || struct_name.ends_with("_Tag") {
+                    continue;
+                }
                 // Skip the struct `engine` specifically as it gets aliased by the type alias `Engine`, which is the public and documented type.
                 if struct_name == "engine" {
                     continue;

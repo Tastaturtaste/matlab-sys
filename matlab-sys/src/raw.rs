@@ -63,8 +63,7 @@ pub use bindings_700::{
     mxSetImagData, mxSetIr_730 as mxSetIr, mxSetJc_730 as mxSetJc, mxSetM_730 as mxSetM,
     mxSetN_730 as mxSetN, mxSetNzmax_730 as mxSetNzmax, mxSetPi, mxSetPr, mxSetPropertyShared,
     mxSetProperty_730 as mxSetProperty, mxSetUserBits, mxUnreference, mxUnshareArray, wchar_t,
-    Engine, MATFile, MatFile_tag, _iobuf, _mexInitTermTableEntry, _mexLocalFunctionTable,
-    mexFunctionTableEntry_tag, mexGlobalTableEntry_Tag, mxArray_tag, CHAR16_T, FILE,
+    Engine, MATFile, CHAR16_T, FILE,
 };
 
 #[cfg(feature = "interleaved-complex")]
@@ -102,10 +101,11 @@ pub use bindings_800::{
     mxClassID_mxLOGICAL_CLASS, mxClassID_mxOBJECT_CLASS, mxClassID_mxOPAQUE_CLASS,
     mxClassID_mxSINGLE_CLASS, mxClassID_mxSTRUCT_CLASS, mxClassID_mxUINT16_CLASS,
     mxClassID_mxUINT32_CLASS, mxClassID_mxUINT64_CLASS, mxClassID_mxUINT8_CLASS,
-    mxClassID_mxUNKNOWN_CLASS, mxClassID_mxVOID_CLASS, mxComplexInt32, mxComplexInt64,
-    mxComplexUint32, mxComplexity, mxComplexity_mxCOMPLEX, mxComplexity_mxREAL,
-    mxCreateCellArray_800 as mxCreateCellArray, mxCreateCellMatrix_800 as mxCreateCellMatrix,
-    mxCreateCharArray_800 as mxCreateCharArray,
+    mxClassID_mxUNKNOWN_CLASS, mxClassID_mxVOID_CLASS, mxComplexDouble, mxComplexInt16,
+    mxComplexInt32, mxComplexInt64, mxComplexInt8, mxComplexSingle, mxComplexUint16,
+    mxComplexUint32, mxComplexUint64, mxComplexUint8, mxComplexity, mxComplexity_mxCOMPLEX,
+    mxComplexity_mxREAL, mxCreateCellArray_800 as mxCreateCellArray,
+    mxCreateCellMatrix_800 as mxCreateCellMatrix, mxCreateCharArray_800 as mxCreateCharArray,
     mxCreateCharMatrixFromStrings_800 as mxCreateCharMatrixFromStrings,
     mxCreateDoubleMatrix_800 as mxCreateDoubleMatrix,
     mxCreateDoubleScalar_800 as mxCreateDoubleScalar,
@@ -172,7 +172,5 @@ pub use bindings_800::{
     mxSetSingles_800 as mxSetSingles, mxSetUint16s_800 as mxSetUint16s,
     mxSetUint32s_800 as mxSetUint32s, mxSetUint64s_800 as mxSetUint64s,
     mxSetUint8s_800 as mxSetUint8s, mxSetUserBits_800 as mxSetUserBits, wchar_t, Engine, MATFile,
-    MatFile_tag, _iobuf, _mexInitTermTableEntry, _mexLocalFunctionTable, mexFunctionTableEntry_tag,
-    mexGlobalTableEntry_Tag, mxArray_tag, mxComplexDouble, mxComplexInt16, mxComplexInt8,
-    mxComplexSingle, mxComplexUint16, mxComplexUint64, mxComplexUint8, CHAR16_T, FILE,
+    CHAR16_T, FILE,
 };

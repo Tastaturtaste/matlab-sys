@@ -5,7 +5,9 @@ This file should only contain code to read in the command line arguments in and 
 use anyhow::Result;
 use pico_args;
 mod generate_bindings;
+mod publish;
 mod reexport_versionless;
+mod test;
 
 fn main() -> Result<()> {
     let mut parser = pico_args::Arguments::from_env();
@@ -16,6 +18,7 @@ fn main() -> Result<()> {
     match task.as_str() {
         "generate-bindings" => generate_bindings::generate_bindings(parser)?,
         "reexport-versionless" => reexport_versionless::reexport_versionless(parser)?,
+        "test" => test::test(parser)?,
         _ => anyhow::bail!("Task '{task}' not found"),
     }
     Ok(())

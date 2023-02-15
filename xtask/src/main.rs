@@ -19,6 +19,7 @@ fn main() -> Result<()> {
         "generate-bindings" => generate_bindings::generate_bindings(parser)?,
         "reexport-versionless" => reexport_versionless::reexport_versionless(parser)?,
         "test" => test::test(parser)?,
+        "publish" => publish::publish(parser)?,
         _ => anyhow::bail!("Task '{task}' not found"),
     }
     Ok(())

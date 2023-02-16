@@ -2,6 +2,9 @@
 #![allow(nonstandard_style)]
 pub type wchar_t = ::core::ffi::c_ushort;
 pub type FILE = _iobuf;
+pub type mwSize = usize;
+pub type mwIndex = usize;
+pub type mwSignedIndex = isize;
 pub type CHAR16_T = wchar_t;
 #[doc = " Forward declaration for mxArray"]
 pub type mxArray = mxArray_tag;
@@ -86,6 +89,14 @@ pub struct MatFile_tag {
 pub struct engine {
     _unused: [u8; 0],
 }
+pub const MWSIZE_MAX: u64 = 281474976710655;
+pub const MWINDEX_MAX: u64 = 281474976710655;
+pub const MWSINDEX_MAX: u64 = 281474976710655;
+pub const MWSINDEX_MIN: i64 = -281474976710655;
+pub const MWSIZE_MIN: u32 = 0;
+pub const MWINDEX_MIN: u32 = 0;
+pub const MW_FIRST_API_VERSION: u32 = 700;
+pub const MW_LATEST_API_VERSION: u32 = 800;
 pub const mxMAXNAM: u32 = 64;
 pub const mxClassID_mxUNKNOWN_CLASS: mxClassID = 0;
 pub const mxClassID_mxCELL_CLASS: mxClassID = 1;
@@ -114,23 +125,23 @@ extern "C" {
     pub fn mxCalloc(n: usize, size: usize) -> *mut ::core::ffi::c_void;
     pub fn mxFree(ptr: *mut ::core::ffi::c_void);
     pub fn mxRealloc(ptr: *mut ::core::ffi::c_void, size: usize) -> *mut ::core::ffi::c_void;
-    pub fn mxGetNumberOfDimensions_730(pa: *const mxArray) -> usize;
-    pub fn mxGetDimensions_730(pa: *const mxArray) -> *const usize;
+    pub fn mxGetNumberOfDimensions_730(pa: *const mxArray) -> mwSize;
+    pub fn mxGetDimensions_730(pa: *const mxArray) -> *const mwSize;
     pub fn mxGetM(pa: *const mxArray) -> usize;
-    pub fn mxGetIr_730(pa: *const mxArray) -> *mut usize;
-    pub fn mxGetJc_730(pa: *const mxArray) -> *mut usize;
-    pub fn mxGetNzmax_730(pa: *const mxArray) -> usize;
-    pub fn mxSetNzmax_730(pa: *mut mxArray, nzmax: usize);
+    pub fn mxGetIr_730(pa: *const mxArray) -> *mut mwIndex;
+    pub fn mxGetJc_730(pa: *const mxArray) -> *mut mwIndex;
+    pub fn mxGetNzmax_730(pa: *const mxArray) -> mwSize;
+    pub fn mxSetNzmax_730(pa: *mut mxArray, nzmax: mwSize);
     pub fn mxGetFieldNameByNumber(
         pa: *const mxArray,
         n: ::core::ffi::c_int,
     ) -> *const ::core::ffi::c_char;
     pub fn mxGetFieldByNumber_730(
         pa: *const mxArray,
-        i: usize,
+        i: mwIndex,
         fieldnum: ::core::ffi::c_int,
     ) -> *mut mxArray;
-    pub fn mxGetCell_730(pa: *const mxArray, i: usize) -> *mut mxArray;
+    pub fn mxGetCell_730(pa: *const mxArray, i: mwIndex) -> *mut mxArray;
     pub fn mxGetClassID(pa: *const mxArray) -> mxClassID;
     pub fn mxGetData(pa: *const mxArray) -> *mut ::core::ffi::c_void;
     pub fn mxSetData(pa: *mut mxArray, newdata: *mut ::core::ffi::c_void);
@@ -166,55 +177,58 @@ extern "C" {
     pub fn mxGetScalar(pa: *const mxArray) -> f64;
     pub fn mxIsFromGlobalWS(pa: *const mxArray) -> bool;
     pub fn mxSetFromGlobalWS(pa: *mut mxArray, global: bool);
-    pub fn mxSetM_730(pa: *mut mxArray, m: usize);
+    pub fn mxSetM_730(pa: *mut mxArray, m: mwSize);
     pub fn mxGetN(pa: *const mxArray) -> usize;
     pub fn mxIsEmpty(pa: *const mxArray) -> bool;
     pub fn mxGetFieldNumber(
         pa: *const mxArray,
         name: *const ::core::ffi::c_char,
     ) -> ::core::ffi::c_int;
-    pub fn mxSetIr_730(pa: *mut mxArray, newir: *mut usize);
-    pub fn mxSetJc_730(pa: *mut mxArray, newjc: *mut usize);
+    pub fn mxSetIr_730(pa: *mut mxArray, newir: *mut mwIndex);
+    pub fn mxSetJc_730(pa: *mut mxArray, newjc: *mut mwIndex);
     pub fn mxGetPr(pa: *const mxArray) -> *mut f64;
     pub fn mxSetPr(pa: *mut mxArray, newdata: *mut f64);
     pub fn mxGetElementSize(pa: *const mxArray) -> usize;
-    pub fn mxCalcSingleSubscript_730(pa: *const mxArray, nsubs: usize, subs: *const usize)
-        -> usize;
+    pub fn mxCalcSingleSubscript_730(
+        pa: *const mxArray,
+        nsubs: mwSize,
+        subs: *const mwIndex,
+    ) -> mwIndex;
     pub fn mxGetNumberOfFields(pa: *const mxArray) -> ::core::ffi::c_int;
-    pub fn mxSetCell_730(pa: *mut mxArray, i: usize, value: *mut mxArray);
+    pub fn mxSetCell_730(pa: *mut mxArray, i: mwIndex, value: *mut mxArray);
     pub fn mxSetFieldByNumber_730(
         pa: *mut mxArray,
-        i: usize,
+        i: mwIndex,
         fieldnum: ::core::ffi::c_int,
         value: *mut mxArray,
     );
     pub fn mxGetField_730(
         pa: *const mxArray,
-        i: usize,
+        i: mwIndex,
         fieldname: *const ::core::ffi::c_char,
     ) -> *mut mxArray;
     pub fn mxSetField_730(
         pa: *mut mxArray,
-        i: usize,
+        i: mwIndex,
         fieldname: *const ::core::ffi::c_char,
         value: *mut mxArray,
     );
     pub fn mxGetProperty_730(
         pa: *const mxArray,
-        i: usize,
+        i: mwIndex,
         propname: *const ::core::ffi::c_char,
     ) -> *mut mxArray;
     pub fn mxSetProperty_730(
         pa: *mut mxArray,
-        i: usize,
+        i: mwIndex,
         propname: *const ::core::ffi::c_char,
         value: *const mxArray,
     );
     pub fn mxGetClassName(pa: *const mxArray) -> *const ::core::ffi::c_char;
     pub fn mxIsClass(pa: *const mxArray, name: *const ::core::ffi::c_char) -> bool;
     pub fn mxCreateNumericMatrix_730(
-        m: usize,
-        n: usize,
+        m: mwSize,
+        n: mwSize,
         classid: mxClassID,
         flag: mxComplexity,
     ) -> *mut mxArray;
@@ -230,57 +244,63 @@ extern "C" {
         classid: mxClassID,
         flag: mxComplexity,
     ) -> *mut mxArray;
-    pub fn mxSetN_730(pa: *mut mxArray, n: usize);
+    pub fn mxSetN_730(pa: *mut mxArray, n: mwSize);
     pub fn mxSetDimensions_730(
         pa: *mut mxArray,
-        pdims: *const usize,
-        ndims: usize,
+        pdims: *const mwSize,
+        ndims: mwSize,
     ) -> ::core::ffi::c_int;
     pub fn mxDestroyArray(pa: *mut mxArray);
     pub fn mxCreateNumericArray_730(
-        ndim: usize,
-        dims: *const usize,
+        ndim: mwSize,
+        dims: *const mwSize,
         classid: mxClassID,
         flag: mxComplexity,
     ) -> *mut mxArray;
-    pub fn mxCreateCharArray_730(ndim: usize, dims: *const usize) -> *mut mxArray;
-    pub fn mxCreateDoubleMatrix_730(m: usize, n: usize, flag: mxComplexity) -> *mut mxArray;
+    pub fn mxCreateCharArray_730(ndim: mwSize, dims: *const mwSize) -> *mut mxArray;
+    pub fn mxCreateDoubleMatrix_730(m: mwSize, n: mwSize, flag: mxComplexity) -> *mut mxArray;
     pub fn mxGetLogicals(pa: *const mxArray) -> *mut mxLogical;
-    pub fn mxCreateLogicalArray_730(ndim: usize, dims: *const usize) -> *mut mxArray;
-    pub fn mxCreateLogicalMatrix_730(m: usize, n: usize) -> *mut mxArray;
+    pub fn mxCreateLogicalArray_730(ndim: mwSize, dims: *const mwSize) -> *mut mxArray;
+    pub fn mxCreateLogicalMatrix_730(m: mwSize, n: mwSize) -> *mut mxArray;
     pub fn mxCreateLogicalScalar(value: bool) -> *mut mxArray;
     pub fn mxIsLogicalScalar(pa: *const mxArray) -> bool;
     pub fn mxIsLogicalScalarTrue(pa: *const mxArray) -> bool;
     pub fn mxCreateDoubleScalar(value: f64) -> *mut mxArray;
-    pub fn mxCreateSparse_730(m: usize, n: usize, nzmax: usize, flag: mxComplexity)
-        -> *mut mxArray;
-    pub fn mxCreateSparseLogicalMatrix_730(m: usize, n: usize, nzmax: usize) -> *mut mxArray;
-    pub fn mxGetNChars_730(pa: *const mxArray, buf: *mut ::core::ffi::c_char, nChars: usize);
+    pub fn mxCreateSparse_730(
+        m: mwSize,
+        n: mwSize,
+        nzmax: mwSize,
+        flag: mxComplexity,
+    ) -> *mut mxArray;
+    pub fn mxCreateSparseLogicalMatrix_730(m: mwSize, n: mwSize, nzmax: mwSize) -> *mut mxArray;
+    pub fn mxGetNChars_730(pa: *const mxArray, buf: *mut ::core::ffi::c_char, nChars: mwSize);
     pub fn mxGetString_730(
         pa: *const mxArray,
         buf: *mut ::core::ffi::c_char,
-        buflen: usize,
+        buflen: mwSize,
     ) -> ::core::ffi::c_int;
     pub fn mxArrayToString(pa: *const mxArray) -> *mut ::core::ffi::c_char;
     pub fn mxArrayToUTF8String(pa: *const mxArray) -> *mut ::core::ffi::c_char;
-    pub fn mxCreateStringFromNChars_730(str_: *const ::core::ffi::c_char, n: usize)
-        -> *mut mxArray;
+    pub fn mxCreateStringFromNChars_730(
+        str_: *const ::core::ffi::c_char,
+        n: mwSize,
+    ) -> *mut mxArray;
     pub fn mxCreateString(str_: *const ::core::ffi::c_char) -> *mut mxArray;
     pub fn mxCreateCharMatrixFromStrings_730(
-        m: usize,
+        m: mwSize,
         str_: *mut *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    pub fn mxCreateCellMatrix_730(m: usize, n: usize) -> *mut mxArray;
-    pub fn mxCreateCellArray_730(ndim: usize, dims: *const usize) -> *mut mxArray;
+    pub fn mxCreateCellMatrix_730(m: mwSize, n: mwSize) -> *mut mxArray;
+    pub fn mxCreateCellArray_730(ndim: mwSize, dims: *const mwSize) -> *mut mxArray;
     pub fn mxCreateStructMatrix_730(
-        m: usize,
-        n: usize,
+        m: mwSize,
+        n: mwSize,
         nfields: ::core::ffi::c_int,
         fieldnames: *mut *const ::core::ffi::c_char,
     ) -> *mut mxArray;
     pub fn mxCreateStructArray_730(
-        ndim: usize,
-        dims: *const usize,
+        ndim: mwSize,
+        dims: *const mwSize,
         nfields: ::core::ffi::c_int,
         fieldnames: *mut *const ::core::ffi::c_char,
     ) -> *mut mxArray;

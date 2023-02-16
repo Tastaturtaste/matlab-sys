@@ -32,6 +32,8 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         .allowlist_function("mx.*")
         .allowlist_type("mx.*")
         .allowlist_var("mx.*")
+        .allowlist_type("mw.*")
+        .allowlist_var("MW.*")
         .allowlist_function("mex.*")
         .allowlist_type("mex.*")
         .allowlist_var("mex.*")
@@ -41,13 +43,14 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         .allowlist_function("eng.*")
         .allowlist_type("Engine")
         .allowlist_type("fn_.*")
-        .blocklist_type("u{0,1}int[0-9]{1,2}_T")
+        .blocklist_type("u{0,1}int[0-9]{1,2}_T") // Fixed size integer typedefs are replaced with rusts native fixed size integers.
+        .size_t_is_usize(true) // Matlab already assumes that size_t is a pointer-sized unsigned integer as can be seen in `tmwtypes.h` on the definition of mwSize for example.
         .sort_semantically(true)
         .merge_extern_blocks(true)
         .layout_tests(false) // Disabled since they do not work correctly if the bindings are used on a different architecture than the one they are generated on, e.g. 32bit/64bit difference.
         .use_core();
 
-    // The passed defines and options for both api versions were extracted from a dry run of the mex command in matlab with windows 10.
+    // The passed defines and options for both api versions were extracted from a dry run of the mex command in matlab with windows 10. Defines which were verified to not be referenced in the include headers using ripgrep are removed.
     let bindings_700 = bindings_common
         .clone()
         .clang_args([
@@ -88,8 +91,7 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         ("mxUint32", "u32"),
         ("mxInt64", "i64"),
         ("mxUint64", "u64"),
-        ("mwSize", "usize"),
-        ("mwIndex", "usize"),
+        ("ptrdiff_t", "isize"), // Matlab already assumes that ptrdiff_t is a pointer-sized signed integer as can be seen in `tmwtypes.h` on the definition of mwSignedIndex.
     ]);
     let bindings_700 = replace_typedefs(bindings_700, &type_replacements)?;
     let bindings_800 = replace_typedefs(bindings_800, &type_replacements)?;
@@ -129,6 +131,8 @@ fn replace_typedefs(
         })
         .collect();
     for (old, new) in type_replacements.into_iter() {
+        // This way of finding and replacing the key type with the value type is brittle, because _every_ substring where the name of the key type prepended with a space appears gets replaced.
+        // This could fail for example if the key type gets referenced (&T) or the type is used in a function signature and there is no space after the colon. That said, for the formating of the code bindgen produces this works.
         s = s.replace(format!(" {old}").as_str(), format!(" {new}").as_str());
     }
 

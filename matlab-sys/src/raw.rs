@@ -22,9 +22,10 @@ pub use bindings_700::{
     mexGetVariableWithObject, mexGlobalTable, mexGlobalTableEntry, mexInitTermTableEntry,
     mexIsGlobal, mexIsLocked, mexLocalFunctionTable, mexLock, mexMakeArrayPersistent,
     mexMakeMemoryPersistent, mexPrintAssertion, mexPrintf, mexPutVariable, mexUnlock,
-    mexWarnMsgIdAndTxt, mexWarnMsgTxt, mex_exit_fn, mxAddField, mxArray, mxArrayToString,
-    mxArrayToUTF8String, mxCalcSingleSubscript_730 as mxCalcSingleSubscript, mxCalloc, mxChar,
-    mxClassID, mxClassID_mxCELL_CLASS, mxClassID_mxCHAR_CLASS, mxClassID_mxDOUBLE_CLASS,
+    mexWarnMsgIdAndTxt, mexWarnMsgTxt, mex_exit_fn, mwIndex, mwSignedIndex, mwSize, mxAddField,
+    mxArray, mxArrayToString, mxArrayToUTF8String,
+    mxCalcSingleSubscript_730 as mxCalcSingleSubscript, mxCalloc, mxChar, mxClassID,
+    mxClassID_mxCELL_CLASS, mxClassID_mxCHAR_CLASS, mxClassID_mxDOUBLE_CLASS,
     mxClassID_mxFUNCTION_CLASS, mxClassID_mxINDEX_CLASS, mxClassID_mxINT16_CLASS,
     mxClassID_mxINT32_CLASS, mxClassID_mxINT64_CLASS, mxClassID_mxINT8_CLASS,
     mxClassID_mxLOGICAL_CLASS, mxClassID_mxOBJECT_CLASS, mxClassID_mxOPAQUE_CLASS,
@@ -63,7 +64,8 @@ pub use bindings_700::{
     mxSetImagData, mxSetIr_730 as mxSetIr, mxSetJc_730 as mxSetJc, mxSetM_730 as mxSetM,
     mxSetN_730 as mxSetN, mxSetNzmax_730 as mxSetNzmax, mxSetPi, mxSetPr, mxSetPropertyShared,
     mxSetProperty_730 as mxSetProperty, mxSetUserBits, mxUnreference, mxUnshareArray, wchar_t,
-    Engine, MATFile, CHAR16_T, FILE,
+    Engine, MATFile, CHAR16_T, FILE, MWINDEX_MAX, MWINDEX_MIN, MWSINDEX_MAX, MWSINDEX_MIN,
+    MWSIZE_MAX, MWSIZE_MIN, MW_FIRST_API_VERSION, MW_LATEST_API_VERSION,
 };
 
 #[cfg(feature = "interleaved-complex")]
@@ -92,8 +94,8 @@ pub use bindings_800::{
     mexPrintAssertion_800 as mexPrintAssertion, mexPrintf_800 as mexPrintf,
     mexPutVariable_800 as mexPutVariable, mexUnlock_800 as mexUnlock,
     mexWarnMsgIdAndTxt_800 as mexWarnMsgIdAndTxt, mexWarnMsgTxt_800 as mexWarnMsgTxt, mex_exit_fn,
-    mxAddField_800 as mxAddField, mxArray, mxArrayToString_800 as mxArrayToString,
-    mxArrayToUTF8String_800 as mxArrayToUTF8String,
+    mwIndex, mwSignedIndex, mwSize, mxAddField_800 as mxAddField, mxArray,
+    mxArrayToString_800 as mxArrayToString, mxArrayToUTF8String_800 as mxArrayToUTF8String,
     mxCalcSingleSubscript_800 as mxCalcSingleSubscript, mxCalloc_800 as mxCalloc, mxChar,
     mxClassID, mxClassID_mxCELL_CLASS, mxClassID_mxCHAR_CLASS, mxClassID_mxDOUBLE_CLASS,
     mxClassID_mxFUNCTION_CLASS, mxClassID_mxINDEX_CLASS, mxClassID_mxINT16_CLASS,
@@ -172,5 +174,6 @@ pub use bindings_800::{
     mxSetSingles_800 as mxSetSingles, mxSetUint16s_800 as mxSetUint16s,
     mxSetUint32s_800 as mxSetUint32s, mxSetUint64s_800 as mxSetUint64s,
     mxSetUint8s_800 as mxSetUint8s, mxSetUserBits_800 as mxSetUserBits, wchar_t, Engine, MATFile,
-    CHAR16_T, FILE,
+    CHAR16_T, FILE, MWINDEX_MAX, MWINDEX_MIN, MWSINDEX_MAX, MWSINDEX_MIN, MWSIZE_MAX, MWSIZE_MIN,
+    MW_FIRST_API_VERSION, MW_LATEST_API_VERSION,
 };

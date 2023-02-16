@@ -58,12 +58,8 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         .clone()
         .clang_args([
             "-DNDEBUG",
-            "-DMX_COMPAT_64",
             "-DMATLAB_DEFAULT_RELEASE=R2017b",
             "-DUSE_MEX_CMD",
-            "-D_CRT_SECURE_NO_DEPRECATE",
-            "-D_SCL_SECURE_NO_DEPRECATE",
-            "-D_SECURE_SCL=0",
             "-DMATLAB_MEX_FILE",
         ])
         .generate()?
@@ -72,12 +68,8 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
     let bindings_800 = bindings_common
         .clang_args([
             "-DNDEBUG",
-            "-DMX_COMPAT_64",
             "-DMATLAB_MEXCMD_RELEASE=R2018a",
             "-DUSE_MEX_CMD",
-            "-D_CRT_SECURE_NO_DEPRECATE",
-            "-D_SCL_SECURE_NO_DEPRECATE",
-            "-D_SECURE_SCL=0",
             "-DMATLAB_MEX_FILE",
         ])
         .generate()?

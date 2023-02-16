@@ -44,6 +44,9 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         .allowlist_type("Engine")
         .allowlist_type("fn_.*")
         .blocklist_type("u{0,1}int[0-9]{1,2}_T") // Fixed size integer typedefs are replaced with rusts native fixed size integers.
+        .blocklist_type("CHAR16_T") // Fixed size char typedefs are replaced with rusts native fixed size unsigned integers.
+        .blocklist_type("wchar_t") // Only used for the definition of CHAR16_T, which is blocklisted
+        .blocklist_type("char16_t") // Only used for the definition of CHAR16_T, which is blocklisted
         .size_t_is_usize(true) // Matlab already assumes that size_t is a pointer-sized unsigned integer as can be seen in `tmwtypes.h` on the definition of mwSize for example.
         .sort_semantically(true)
         .merge_extern_blocks(true)
@@ -92,6 +95,7 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         ("mxInt64", "i64"),
         ("mxUint64", "u64"),
         ("ptrdiff_t", "isize"), // Matlab already assumes that ptrdiff_t is a pointer-sized signed integer as can be seen in `tmwtypes.h` on the definition of mwSignedIndex.
+        ("CHAR16_T", "u16"), // Matlab defines `CHAR16_T` as either a char16_t when available otherwise as a wchar_t when compiling with MSVC or otherwise a uint16_t. In all cases where the target platform has an unsigned 16-bit integer, the resulting type is a 16-bit unsigned integer when compiled as C.
     ]);
     let bindings_700 = replace_typedefs(bindings_700, &type_replacements)?;
     let bindings_800 = replace_typedefs(bindings_800, &type_replacements)?;

@@ -6,7 +6,8 @@ Some manual changes were made to the bindings to ease usage or simplify the expo
 
 #[cfg(all(feature = "separate-complex", feature = "interleaved-complex"))]
 compile_error!("Feature \"separate-complex\" and feature \"interleaved-complex\" cannot be enabled at the same time");
-
+#[cfg(not(target_pointer_width = "64"))]
+compile_error!("The bindings are only valid for 64-bit applications. All Matlab versions after 2015b are only available in 64-bit.");
 #[cfg(feature = "separate-complex")]
 mod bindings_700;
 #[cfg(feature = "separate-complex")]
@@ -63,9 +64,9 @@ pub use bindings_700::{
     mxSetFieldByNumber_730 as mxSetFieldByNumber, mxSetField_730 as mxSetField, mxSetFromGlobalWS,
     mxSetImagData, mxSetIr_730 as mxSetIr, mxSetJc_730 as mxSetJc, mxSetM_730 as mxSetM,
     mxSetN_730 as mxSetN, mxSetNzmax_730 as mxSetNzmax, mxSetPi, mxSetPr, mxSetPropertyShared,
-    mxSetProperty_730 as mxSetProperty, mxSetUserBits, mxUnreference, mxUnshareArray, wchar_t,
-    Engine, MATFile, CHAR16_T, FILE, MWINDEX_MAX, MWINDEX_MIN, MWSINDEX_MAX, MWSINDEX_MIN,
-    MWSIZE_MAX, MWSIZE_MIN, MW_FIRST_API_VERSION, MW_LATEST_API_VERSION,
+    mxSetProperty_730 as mxSetProperty, mxSetUserBits, mxUnreference, mxUnshareArray, Engine,
+    MATFile, FILE, MWINDEX_MAX, MWINDEX_MIN, MWSINDEX_MAX, MWSINDEX_MIN, MWSIZE_MAX, MWSIZE_MIN,
+    MW_FIRST_API_VERSION, MW_LATEST_API_VERSION,
 };
 
 #[cfg(feature = "interleaved-complex")]
@@ -173,7 +174,7 @@ pub use bindings_800::{
     mxSetNzmax_800 as mxSetNzmax, mxSetPr_800 as mxSetPr, mxSetProperty_800 as mxSetProperty,
     mxSetSingles_800 as mxSetSingles, mxSetUint16s_800 as mxSetUint16s,
     mxSetUint32s_800 as mxSetUint32s, mxSetUint64s_800 as mxSetUint64s,
-    mxSetUint8s_800 as mxSetUint8s, mxSetUserBits_800 as mxSetUserBits, wchar_t, Engine, MATFile,
-    CHAR16_T, FILE, MWINDEX_MAX, MWINDEX_MIN, MWSINDEX_MAX, MWSINDEX_MIN, MWSIZE_MAX, MWSIZE_MIN,
+    mxSetUint8s_800 as mxSetUint8s, mxSetUserBits_800 as mxSetUserBits, Engine, MATFile, FILE,
+    MWINDEX_MAX, MWINDEX_MIN, MWSINDEX_MAX, MWSINDEX_MIN, MWSIZE_MAX, MWSIZE_MIN,
     MW_FIRST_API_VERSION, MW_LATEST_API_VERSION,
 };

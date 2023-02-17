@@ -1,7 +1,7 @@
 use anyhow::Ok;
 
 // Run examples as tests
-const TEST_EXAMPLES: &[&str] = &["array-product", "mex-call-matlab"];
+const TEST_EXAMPLES: &[&str] = &["array-product", "mex-call-matlab", "array-size"];
 
 pub fn test(_arguments: pico_args::Arguments) -> anyhow::Result<()> {
     // Specify all mex examples to be used for the tests

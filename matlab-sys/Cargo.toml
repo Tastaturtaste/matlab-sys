@@ -14,10 +14,11 @@ repository = "https://github.com/Tastaturtaste/matlab-sys"
 links = "matlab"
 
 [features]
-# Use the modern interleaved complex api available since Matlab 2018a. Mutually exlusive with the feature 'separate-complex'.
+# Use the modern interleaved complex api available since Matlab 2018a.
 interleaved-complex = []
-# Use the old separate complex api. Mutually exclusive with the feature 'interleaved-complex'.
+# Use the old separate complex api.
 separate-complex = []
-# Link with the necessary runtime libraries provided by matlab. The path to the matlab installation to be used has to be specified in the environment variable 'MATLABPATH'. Alternatively the libary can be specified in a .config file with the rustc-link-lib and rustc-link-search keys (https://doc.rust-lang.org/cargo/reference/config.html).
+# Link with the necessary runtime libraries provided by matlab. The path to the matlab installation to be used has to be specified in the environment variable 'MATLABPATH'  or will be searched for by calling out to matlab itself. 
+# Alternatively the libary can be specified in a .config file with the rustc-link-lib and rustc-link-search keys (https://doc.rust-lang.org/cargo/reference/config.html).
 link-lib = []
 default = ["interleaved-complex", "link-lib"]

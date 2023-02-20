@@ -1,6 +1,6 @@
 //! Example `mexcallmatlab.c` translated to Rust.
 use core::ffi;
-use matlab_sys::raw::{self, mxArray};
+use matlab_sys::interleaved_complex::{self as raw, mxArray};
 use std::ptr::addr_of_mut;
 
 unsafe fn xr(pa: *mut mxArray, i: usize, j: usize) -> *mut f64 {

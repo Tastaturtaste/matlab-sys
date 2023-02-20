@@ -34,14 +34,14 @@ fn main() {
         "The path to the matlab installation does not exist: {matlabpath}"
     );
 
-    // Tell cargo to look for shared libraries in the specified directory. 
+    // Tell cargo to look for shared libraries in the specified directory.
     let link_search_path = format!("{matlabpath}/{}", match (platform, target_env.as_str()) {
         (OS::Windows, "msvc") => "extern/lib/win64/microsoft/",
         (OS::Windows, "gnu") => "extern/lib/win64/mingw64/",
         (OS::Linux, _) => "bin/glnxa64/",
         _ => unimplemented!("Combination of {platform:?} and {target_env:?} not supported. Please raise an issue at https://github.com/Tastaturtaste/matlab-sys/issues with a description of your environment."),
     });
- 
+
     assert!(
         std::path::Path::new(&link_search_path)
             .try_exists()
@@ -52,15 +52,19 @@ fn main() {
     );
     println!("cargo:rustc-link-search={link_search_path}");
 
-    // Tell cargo which libraries to link. On linux the standard linker 'ld' prepends the prefix 'lib' automatically for all libraries 
+    // Tell cargo which libraries to link. On linux the standard linker 'ld' prepends the prefix 'lib' automatically for all libraries
     // while on windows the linker 'link.exe' uses the full filename, this step is handled separately depending on target platform.
     match platform {
-        OS::Windows => for lib in WIN_LINKNAMES{
-            println!("cargo:rustc-link-lib={lib}");
-        },
-        OS::Linux => for lib in LINUX_LINKNAMES{
-            println!("cargo:rustc-link-lib={lib}");
-        },
+        OS::Windows => {
+            for lib in WIN_LINKNAMES {
+                println!("cargo:rustc-link-lib={lib}");
+            }
+        }
+        OS::Linux => {
+            for lib in LINUX_LINKNAMES {
+                println!("cargo:rustc-link-lib={lib}");
+            }
+        }
         OS::MacOS => unimplemented!(),
     }
 }

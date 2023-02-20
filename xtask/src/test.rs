@@ -25,26 +25,12 @@ pub fn test(_arguments: pico_args::Arguments) -> anyhow::Result<()> {
     )
     .expect("Couldn't change directory to target/{debug|release} directory");
 
-    // Windows: *.mexw64
-    // Linux: *.mexa64
-    let file_extension = if cfg!(target_os = "windows") {
-        (".dll", ".mexw64")
-    } else if cfg!(target_os = "linux") {
-        (".so", ".mexa64")
-    } else if cfg!(target_os = "macos") {
-        (".dylib", ".mexmeci64")
-    } else {
-        panic!("Unknown target os")
-    };
-    for name in TEST_EXAMPLES {
-        // Change the file extension from all dynamic link libraries created from the mex examples to the platform specific mex extension.
-        let compiled_name = name.replace('-', "_");
-        std::fs::rename(
-            format!("./{compiled_name}{}", file_extension.0),
-            format!("./{compiled_name}{}", file_extension.1),
-        )
-        .expect("Couldn't change file extension necessary to be usable as a mex function.");
-    }
+
+    dlls_to_mex(std::env::current_exe()
+    .expect("Couldn't get directory of currently executing executable")
+    .parent()
+    .unwrap())?;
+    
     println!("Running tests in Matlab...");
     let result = std::process::Command::new("matlab")
         .arg("-batch")
@@ -65,4 +51,27 @@ pub fn test(_arguments: pico_args::Arguments) -> anyhow::Result<()> {
             std::str::from_utf8(&result.stderr).expect("stderr was not valid utf-8")
         )
     }
+}
+// Renames all dlls created from the example projects in TEST_EXAMPLES to the expected mexfunction name.
+// E.g  libarray_product.so -> array_product.mexa64
+// or   array_product.dll   -> array_product.mexw64
+fn dlls_to_mex(path_to_dlls: &std::path::Path)->anyhow::Result<()>{
+    let (prefix_to_remove, file_ext_change) = if cfg!(target_os = "windows") {
+        ("", (".dll", ".mexw64"))
+    } else if cfg!(target_os = "linux") {
+        ("lib", (".so", ".mexa64"))
+    } else if cfg!(target_os = "macos") {
+        // (dynamic link library prefix , (".dylib", ".mexmeci64"))
+        unimplemented!("MacOS currently not tested.")
+    } else {
+        panic!("Unknown target os")
+    };
+
+    for name in TEST_EXAMPLES{
+        let replaced_dash = name.replace("-", "_");
+        let compiled_dll_name = format!("{prefix_to_remove}{replaced_dash}{}", file_ext_change.0);
+        let new_mex_name =      format!("{replaced_dash}{}", file_ext_change.1);
+        std::fs::rename(path_to_dlls.join(compiled_dll_name),path_to_dlls.join(new_mex_name))?;
+    }
+    Ok(())
 }

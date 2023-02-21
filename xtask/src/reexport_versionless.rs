@@ -5,8 +5,8 @@ use std::{
 };
 
 use anyhow::{self, Context, Ok};
-use pico_args;
-use regex;
+
+
 // The command line arguments should be key-value pairs, with the api version as the key and the corresponding filepath as the value, e.g. '-API700=./bindings_700.rs or -API700 ./bindings_700.rs'
 pub fn reexport_versionless(mut arguments: pico_args::Arguments) -> anyhow::Result<()> {
     let mut version_files: Vec<(_, String)> = Vec::new();
@@ -70,7 +70,7 @@ pub fn reexport_versionless(mut arguments: pico_args::Arguments) -> anyhow::Resu
             } else if let Some(captures) = struct_pattern.captures(&line) {
                 let struct_name = &captures[1];
                 // Skip the types with leading underscore as they are not part of the intended public API and only used for type aliases.
-                if struct_name.chars().next() == Some('_') {
+                if struct_name.starts_with('_') {
                     continue;
                 }
                 // Skip the types with a _tag or _Tag suffix as they are not part of the intended public API and only used for type aliases.

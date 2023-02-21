@@ -69,7 +69,7 @@ fn dlls_to_mex(path_to_dlls: &std::path::Path) -> anyhow::Result<()> {
     };
 
     for name in TEST_EXAMPLES {
-        let replaced_dash = name.replace("-", "_");
+        let replaced_dash = name.replace('-', "_");
         let compiled_dll_name = format!("{prefix_to_remove}{replaced_dash}{}", file_ext_change.0);
         let new_mex_name = format!("{replaced_dash}{}", file_ext_change.1);
         std::fs::rename(

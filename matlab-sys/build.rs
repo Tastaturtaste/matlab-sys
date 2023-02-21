@@ -25,7 +25,7 @@ fn main() {
     assert!(
         std::path::Path::new(&matlabpath)
             .try_exists()
-            .expect(&format!("Cannot check existence of path {matlabpath}")),
+            .unwrap_or_else(|_| panic!("Cannot check existence of path {matlabpath}")),
         "The path to the matlab installation does not exist: {matlabpath}"
     );
 
@@ -40,9 +40,7 @@ fn main() {
     assert!(
         std::path::Path::new(&link_search_path)
             .try_exists()
-            .expect(&format!(
-                "Cannot check existence of path {link_search_path}"
-            )),
+            .unwrap_or_else(|_| panic!("Cannot check existence of path {link_search_path}")),
         "The path to the matlab link libraries does not exist: {link_search_path}"
     );
     println!("cargo:rustc-link-search={link_search_path}");

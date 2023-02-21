@@ -1,7 +1,7 @@
 //! This is not intended for general use!
 
-use bindgen;
-use pico_args;
+
+
 use std::{io::Write, path::PathBuf, str::FromStr};
 
 /// Function for generating the bindings for the mex API versions 700 and 800. They will be produced in the working directory with the naming scheme 'bindings_$version$.rs'.
@@ -31,7 +31,7 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
     )?;
     // binding settings common for both api versions
     let bindings_common = bindgen::Builder::default()
-        .clang_arg(&format!("-I{}", matlab_include_path.to_str().unwrap()))
+        .clang_arg(format!("-I{}", matlab_include_path.to_str().unwrap()))
         .header(temp_file_name.display().to_string())
         .raw_line("#![allow(nonstandard_style)]")   // allow direct translation of C-style naming conventions
         .raw_line(
@@ -155,7 +155,7 @@ fn replace_typedefs(
             None => line,
         })
         .collect();
-    for (old, new) in type_replacements.into_iter() {
+    for (old, new) in type_replacements.iter() {
         // This way of finding and replacing the key type with the value type is brittle, because _every_ substring where the name of the key type prepended with a space appears gets replaced.
         // This could fail for example if the key type gets referenced (&T) or the type is used in a function signature and there is no space after the colon. That said, for the formating of the code bindgen produces this works.
         s = s.replace(format!(" {old}").as_str(), format!(" {new}").as_str());
@@ -164,7 +164,7 @@ fn replace_typedefs(
     Ok(s)
 }
 
-use regex;
+
 #[derive(Debug, Clone)]
 struct RemoveVersionParserCallback {
     fn_version_pattern: regex::Regex,

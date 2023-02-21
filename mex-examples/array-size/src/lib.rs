@@ -48,8 +48,8 @@ pub unsafe extern "C" fn mexFunction(
     let the_array = raw::mxCreateNumericMatrix(
         dim as raw::mwSize,
         dim as raw::mwSize,
-        raw::mxClassID_mxUINT8_CLASS,
-        raw::mxComplexity_mxREAL,
+        raw::mxClassID::mxUINT8_CLASS,
+        raw::mxComplexity::mxREAL,
     );
 
     /* Display the mxArray's size. */

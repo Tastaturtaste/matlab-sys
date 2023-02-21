@@ -33,12 +33,18 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
     let bindings_common = bindgen::Builder::default()
         .clang_arg(&format!("-I{}", matlab_include_path.to_str().unwrap()))
         .header(temp_file_name.display().to_string())
-        .raw_line("#![allow(nonstandard_style)]")
+        .raw_line("#![allow(nonstandard_style)]")   // allow direct translation of C-style naming conventions
+        .raw_line(
+            r##"#[cfg(not(target_pointer_width = "64"))]
+            compile_error!("The bindings are only valid for 64-bit applications. All Matlab versions after 2015b are only available in 64-bit.");"##
+        )                                           // The bindings are generated with the assumption of a 64-bit system. This assumption should be reflected and guarded against in the bindings.
         .allowlist_function("mx.*")
         .allowlist_type("mx.*")
         .allowlist_var("mx.*")
         .allowlist_type("mw.*")
         .allowlist_var("MW.*")
+        .blocklist_item("MW_FIRST_API_VERSION")     // These would be hardcoded to the values set by the Matlab release used to generate the bindings.
+        .blocklist_item("MW_LATEST_API_VERSION")    // Since the bindings get distributed, these variables would not reflect the reality of the user.
         .allowlist_function("mex.*")
         .allowlist_type("mex.*")
         .allowlist_var("mex.*")
@@ -47,16 +53,34 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         .allowlist_var("mat.*")
         .allowlist_function("eng.*")
         .allowlist_type("Engine")
-        .allowlist_type("fn_.*")
+        .parse_callbacks(Box::new(RemoveVersionParserCallback::new().unwrap())) // Remove version suffixes from function names
+        .translate_enum_integer_types(true)
+        // .new_type_alias("Engine")        // new_type_alias currently leads to warnings about ffi-unsafe types
+        // .new_type_alias("FILE")          // new_type_alias currently leads to warnings about ffi-unsafe types
+        // .new_type_alias("MATFile")       // new_type_alias currently leads to warnings about ffi-unsafe types
+        .constified_enum_module("mxClassID")
+        .constified_enum_module("mxComplexity")
         .blocklist_type("u{0,1}int[0-9]{1,2}_T") // Fixed size integer typedefs are replaced with rusts native fixed size integers.
         .blocklist_type("CHAR16_T") // Fixed size char typedefs are replaced with rusts native fixed size unsigned integers.
         .blocklist_type("wchar_t") // Only used for the definition of CHAR16_T, which is blocklisted
         .blocklist_type("char16_t") // Only used for the definition of CHAR16_T, which is blocklisted
+        // Block undocumented typedefs that do not appear in the documented api
+        .blocklist_type("mexGlobalTable")
+        .blocklist_type("mexGlobalTableEntry")
+        .blocklist_type("mexFunctionTable")
+        .blocklist_type("mexFunctionTableEntry")
+        .blocklist_type("mexLocalFunctionTable")
+        .blocklist_type("mexInitTermTableEntry")
+        .blocklist_type("mexGlobalTableEntry_Tag")
+        .blocklist_type("mexFunctionTableEntry_tag")
+        .blocklist_type("_mexInitTermTableEntry")
+        .blocklist_type("_mexLocalFunctionTable")
         .size_t_is_usize(true) // Matlab already assumes that size_t is a pointer-sized unsigned integer as can be seen in `tmwtypes.h` on the definition of mwSize for example.
         .sort_semantically(true)
         .merge_extern_blocks(true)
         .layout_tests(false) // Disabled since they do not work correctly if the bindings are used on a different architecture than the one they are generated on, e.g. 32bit/64bit difference.
-        .use_core();
+        .use_core()
+        .rustfmt_bindings(true);
 
     // The passed defines and options for both api versions were extracted from a dry run of the mex command in matlab with windows 10. Defines which were verified to not be referenced in the include headers using ripgrep are removed.
     let separate_complex = bindings_common
@@ -138,4 +162,24 @@ fn replace_typedefs(
     }
 
     Ok(s)
+}
+
+use regex;
+#[derive(Debug, Clone)]
+struct RemoveVersionParserCallback {
+    fn_version_pattern: regex::Regex,
+}
+impl RemoveVersionParserCallback {
+    fn new() -> anyhow::Result<Self> {
+        Ok(Self {
+            // Matches only if a version suffix is present
+            fn_version_pattern: regex::Regex::new(r"([a-zA-Z0-9_]+)(_700|_730|_800)")?,
+        })
+    }
+}
+impl bindgen::callbacks::ParseCallbacks for RemoveVersionParserCallback {
+    fn generated_name_override(&self, function_name: &str) -> Option<String> {
+        let captures = self.fn_version_pattern.captures(function_name)?;
+        Some(captures[1].to_string())
+    }
 }

@@ -13,7 +13,11 @@ To make use of the functionality provided by this crate it has to be linked agai
 Otherwise the build script will attempt to seek the installation directory of the default matlab installation by running 
 the following command on the build machine: `matlab -batch "disp(matlabroot)"`. This usually takes a few seconds for 
 Matlab to start up, so explicitly providing the path in the aforementioned environment variable helps compile times 
-and should be preferred.
+and should be preferred.  
+
+If you have special requirements with regard to the linking process which can not be handled by the approach described 
+above, the necessary link directives directives can be specified in a `.config` file with the rustc-link-lib 
+and rustc-link-search keys. Further information can be found [here](https://doc.rust-lang.org/cargo/reference/config.html#targettriplelinks).
 
 ### Building MEX functions directly
 To build a mex function in Rust the crate type has to be a dynamic link library with a C ABI. In your `cargo.toml` 
@@ -65,10 +69,6 @@ in the future. Arrays of complex numbers are represented internally by a single 
 imaginary parts. This is the representation Matlab uses internally since release `R2018a`. As a result no copying has to 
 take place at the interface. This representation is also used by most popular numeric libraries. Using this feature with 
 a Matlab release older than `R2018a` will not work! For all newer releases this is the recommended API.
-
-### link-lib - default  
-This feature enables automatically linking to the necessary libraries in your Matlab installation. If you need more 
-control over this process you can disable this feature by disabling the default features.
 
 
 [MEX functions]: https://de.mathworks.com/help/matlab/call-mex-files-1.html

@@ -18,7 +18,5 @@ links = "matlab"
 interleaved-complex = []
 # Use the old separate complex api.
 separate-complex = []
-# Link with the necessary runtime libraries provided by matlab. The path to the matlab installation to be used has to be specified in the environment variable 'MATLABPATH'  or will be searched for by calling out to matlab itself. 
-# Alternatively the libary can be specified in a .config file with the rustc-link-lib and rustc-link-search keys (https://doc.rust-lang.org/cargo/reference/config.html).
-link-lib = []
-default = ["interleaved-complex", "link-lib"]
+# By default the more modern and type safe API is exposed. Use this by default, unless you have to support Matlab releases prior to R2018a.
+default = ["interleaved-complex"]

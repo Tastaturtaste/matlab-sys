@@ -5,12 +5,7 @@ const LINUX_LINKNAMES: &[&str] = &["mex", "mx", "mat", "eng"];
 const WIN_LINKNAMES: &[&str] = &["libmex", "libmx", "libmat", "libeng"];
 
 fn main() {
-    // Check if the link-lib feature is disabled. If it is, the user wants full control and has full responsibility to link to the correct libraries.
-    if std::env::var("CARGO_FEATURE_LINK_LIB").is_err() {
-        return;
-    }
     // Check which platform we run on.
-    // TODO: Generalize for other platforms like linux or mac
     let platform = match std::env::var("CARGO_CFG_TARGET_OS")
         .as_deref()
         .expect("Environment variable 'CARGO_CFG_TARGET_OS' not found.")

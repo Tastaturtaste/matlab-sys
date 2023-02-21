@@ -66,7 +66,7 @@ pub unsafe extern "C" fn mexFunction(
     }
 
     /* Allocate x matrix */
-    let mut x = raw::mxCreateDoubleMatrix(m, n, raw::mxComplexity_mxCOMPLEX);
+    let mut x = raw::mxCreateDoubleMatrix(m, n, raw::mxComplexity::mxCOMPLEX);
 
     /* create values in some arrays -- remember, MATLAB stores matrices
     column-wise */

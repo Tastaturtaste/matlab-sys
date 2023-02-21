@@ -73,7 +73,7 @@ pub unsafe extern "C" fn mexFunction(
     let ncols = raw::mxGetN(prhs[1]);
 
     /* create the output matrix */
-    plhs[0] = raw::mxCreateDoubleMatrix(1, ncols, raw::mxComplexity_mxREAL);
+    plhs[0] = raw::mxCreateDoubleMatrix(1, ncols, raw::mxComplexity::mxREAL);
 
     let outMatrix = raw::mxGetDoubles(plhs[0]);
 

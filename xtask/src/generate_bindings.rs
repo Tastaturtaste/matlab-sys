@@ -2,14 +2,19 @@
 
 use bindgen;
 use pico_args;
-use std::{io::Write, path::PathBuf};
+use std::{io::Write, path::PathBuf, str::FromStr};
 
 /// Function for generating the bindings for the mex API versions 700 and 800. They will be produced in the working directory with the naming scheme 'bindings_$version$.rs'.
 pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<()> {
     let matlab_include_path: PathBuf = arguments
-        .free_from_str()
-        .expect("The first argument should be the path to the matlab include files!");
-
+        .value_from_str("-i")
+        .or_else(|_| arguments.value_from_str("--include"))
+        .unwrap();
+    let output_path: PathBuf = arguments
+        .value_from_str("-o")
+        .or_else(|_| arguments.value_from_str("--out"))
+        .or(PathBuf::from_str("./"))
+        .unwrap();
     println!(
         "Using matlab include path {}\n\n",
         matlab_include_path.display()
@@ -54,7 +59,7 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         .use_core();
 
     // The passed defines and options for both api versions were extracted from a dry run of the mex command in matlab with windows 10. Defines which were verified to not be referenced in the include headers using ripgrep are removed.
-    let bindings_700 = bindings_common
+    let separate_complex = bindings_common
         .clone()
         .clang_args([
             "-DNDEBUG",
@@ -65,7 +70,7 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         .generate()?
         .to_string();
 
-    let bindings_800 = bindings_common
+    let interleaved_complex = bindings_common
         .clang_args([
             "-DNDEBUG",
             "-DMATLAB_MEXCMD_RELEASE=R2018a",
@@ -89,18 +94,18 @@ pub fn generate_bindings(mut arguments: pico_args::Arguments) -> anyhow::Result<
         ("ptrdiff_t", "isize"), // Matlab already assumes that ptrdiff_t is a pointer-sized signed integer as can be seen in `tmwtypes.h` on the definition of mwSignedIndex.
         ("CHAR16_T", "u16"), // Matlab defines `CHAR16_T` as either a char16_t when available otherwise as a wchar_t when compiling with MSVC or otherwise a uint16_t. In all cases where the target platform has an unsigned 16-bit integer, the resulting type is a 16-bit unsigned integer when compiled as C.
     ]);
-    let bindings_700 = replace_typedefs(bindings_700, &type_replacements)?;
-    let bindings_800 = replace_typedefs(bindings_800, &type_replacements)?;
+    let separate_complex = replace_typedefs(separate_complex, &type_replacements)?;
+    let interleaved_complex = replace_typedefs(interleaved_complex, &type_replacements)?;
     std::fs::File::options()
         .create_new(true)
         .write(true)
-        .open("./bindings_700.rs")?
-        .write_all(bindings_700.as_bytes())?;
+        .open(output_path.join("separate_complex_impl.rs"))?
+        .write_all(separate_complex.as_bytes())?;
     std::fs::File::options()
         .create_new(true)
         .write(true)
-        .open("./bindings_800.rs")?
-        .write_all(bindings_800.as_bytes())?;
+        .open(output_path.join("interleaved_complex_impl.rs"))?
+        .write_all(interleaved_complex.as_bytes())?;
     std::fs::remove_file(temp_file_name)?;
 
     Ok(())

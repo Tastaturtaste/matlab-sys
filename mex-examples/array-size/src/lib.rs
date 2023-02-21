@@ -1,7 +1,7 @@
 //! Example `arraySize.c` translated to Rust.
 
 use core::ffi;
-use matlab_sys::raw;
+use matlab_sys::interleaved_complex as raw;
 
 unsafe fn error_check(nlhs: i32, nrhs: i32, prhs: *const *const raw::mxArray) {
     /* Check for proper number of arguments. */

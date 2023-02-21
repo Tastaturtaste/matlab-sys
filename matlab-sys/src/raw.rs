@@ -1,7 +1,13 @@
+
 #[cfg(feature = "separate-complex")]
 mod separate_complex_impl;
+/// Reexports for the separate-complex API. The differences between the API versions are documented by Mathworks [here][1].
+/// 
+/// [1]: https://de.mathworks.com/help/matlab/matlab_external/matlab-support-for-interleaved-complex.html
 #[cfg(feature = "separate-complex")]
 pub mod separate_complex {
+    // While reexporting all items with an API version suffix have this suffix stripped.
+    // This matches the behavior in the C headers, which also mask the names with the suffix-less names using macros.
     pub use super::separate_complex_impl::{
         engClose, engEvalString, engGetVariable, engGetVisible, engOpen, engOpenSingleUse,
         engOutputBuffer, engPutVariable, engSetVisible, fn_clean_up_after_error,
@@ -64,9 +70,13 @@ pub mod separate_complex {
 }
 #[cfg(feature = "interleaved-complex")]
 mod interleaved_complex_impl;
+/// Reexports for the interleaved-complex API. The differences between the API versions are documented by Mathworks [here][1].
+/// 
+/// [1]: https://de.mathworks.com/help/matlab/matlab_external/matlab-support-for-interleaved-complex.html
 #[cfg(feature = "interleaved-complex")]
 pub mod interleaved_complex {
-
+    // While reexporting all items with an API version suffix have this suffix stripped.
+    // This matches the behavior in the C headers, which also mask the names with the suffix-less names using macros.
     pub use super::interleaved_complex_impl::{
         engClose, engEvalString, engGetVariable, engGetVisible, engOpen, engOpenSingleUse,
         engOutputBuffer, engPutVariable, engSetVisible, fn_clean_up_after_error,

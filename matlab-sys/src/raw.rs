@@ -39,7 +39,8 @@ pub mod separate_complex {
         mxSetClassName, mxSetData, mxSetDimensions, mxSetField, mxSetFieldByNumber,
         mxSetFromGlobalWS, mxSetImagData, mxSetIr, mxSetJc, mxSetM, mxSetN, mxSetNzmax, mxSetPi,
         mxSetPr, mxSetProperty, mxSetPropertyShared, mxSetUserBits, mxUnreference, mxUnshareArray,
-        MWINDEX_MAX, MWINDEX_MIN, MWSINDEX_MAX, MWSINDEX_MIN, MWSIZE_MAX, MWSIZE_MIN,
+        Engine, MATFile, FILE, MWINDEX_MAX, MWINDEX_MIN, MWSINDEX_MAX, MWSINDEX_MIN, MWSIZE_MAX,
+        MWSIZE_MIN,
     };
 }
 #[cfg(feature = "interleaved-complex")]
@@ -90,7 +91,8 @@ pub mod interleaved_complex {
         mxSetComplexUint64s, mxSetComplexUint8s, mxSetData, mxSetDimensions, mxSetDoubles,
         mxSetField, mxSetFieldByNumber, mxSetFromGlobalWS, mxSetInt16s, mxSetInt32s, mxSetInt64s,
         mxSetInt8s, mxSetIr, mxSetJc, mxSetM, mxSetN, mxSetNzmax, mxSetPr, mxSetProperty,
-        mxSetSingles, mxSetUint16s, mxSetUint32s, mxSetUint64s, mxSetUint8s, mxSetUserBits,
-        MWINDEX_MAX, MWINDEX_MIN, MWSINDEX_MAX, MWSINDEX_MIN, MWSIZE_MAX, MWSIZE_MIN,
+        mxSetSingles, mxSetUint16s, mxSetUint32s, mxSetUint64s, mxSetUint8s, mxSetUserBits, Engine,
+        MATFile, FILE, MWINDEX_MAX, MWINDEX_MIN, MWSINDEX_MAX, MWSINDEX_MIN, MWSIZE_MAX,
+        MWSIZE_MIN,
     };
 }

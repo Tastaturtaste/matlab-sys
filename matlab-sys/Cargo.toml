@@ -1,9 +1,9 @@
 [package]
 name = "matlab-sys"
-version = "0.2.1"
+version = "0.3.0"
 edition = "2021"
 authors = ["Tatstaturtaste <joshua.moellers@gmx.net>"]
-readme = "../README.md"
+readme = "./README.md"
 license = "MIT OR Apache-2.0"
 description = "Rust bindings for the Matlab C API"
 keywords = ["matlab", "mex", "scientific", "matrix", "sys"]

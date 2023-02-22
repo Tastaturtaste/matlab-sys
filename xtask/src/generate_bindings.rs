@@ -178,8 +178,15 @@ impl RemoveVersionParserCallback {
     }
 }
 impl bindgen::callbacks::ParseCallbacks for RemoveVersionParserCallback {
-    fn generated_name_override(&self, function_name: &str) -> Option<String> {
-        let captures = self.fn_version_pattern.captures(function_name)?;
-        Some(captures[1].to_string())
+    fn generated_name_override(&self, info: bindgen::callbacks::ItemInfo<'_>) -> Option<String> {
+        use bindgen::callbacks::ItemKind;
+        match info.kind {
+            ItemKind::Function => {
+                let function_name = info.name;
+                let captures = self.fn_version_pattern.captures(function_name)?;
+                Some(captures[1].to_string())
+            }
+            _ => None,
+        }
     }
 }

@@ -1,6 +1,6 @@
 //! Example `mexcallmatlab.c` translated to Rust.
 use core::ffi;
-use matlab_sys::raw::{self, mxArray};
+use matlab_sys::interleaved_complex::{self as raw, mxArray};
 use std::ptr::addr_of_mut;
 
 unsafe fn xr(pa: *mut mxArray, i: usize, j: usize) -> *mut f64 {
@@ -66,7 +66,7 @@ pub unsafe extern "C" fn mexFunction(
     }
 
     /* Allocate x matrix */
-    let mut x = raw::mxCreateDoubleMatrix(m, n, raw::mxComplexity_mxCOMPLEX);
+    let mut x = raw::mxCreateDoubleMatrix(m, n, raw::mxComplexity::mxCOMPLEX);
 
     /* create values in some arrays -- remember, MATLAB stores matrices
     column-wise */

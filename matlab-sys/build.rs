@@ -5,12 +5,7 @@ const LINUX_LINKNAMES: &[&str] = &["mex", "mx", "mat", "eng"];
 const WIN_LINKNAMES: &[&str] = &["libmex", "libmx", "libmat", "libeng"];
 
 fn main() {
-    // Check if the link-lib feature is disabled. If it is, the user wants full control and has full responsibility to link to the correct libraries.
-    if std::env::var("CARGO_FEATURE_LINK_LIB").is_err() {
-        return;
-    }
     // Check which platform we run on.
-    // TODO: Generalize for other platforms like linux or mac
     let platform = match std::env::var("CARGO_CFG_TARGET_OS")
         .as_deref()
         .expect("Environment variable 'CARGO_CFG_TARGET_OS' not found.")
@@ -30,37 +25,39 @@ fn main() {
     assert!(
         std::path::Path::new(&matlabpath)
             .try_exists()
-            .expect(&format!("Cannot check existence of path {matlabpath}")),
+            .unwrap_or_else(|_| panic!("Cannot check existence of path {matlabpath}")),
         "The path to the matlab installation does not exist: {matlabpath}"
     );
 
-    // Tell cargo to look for shared libraries in the specified directory. 
+    // Tell cargo to look for shared libraries in the specified directory.
     let link_search_path = format!("{matlabpath}/{}", match (platform, target_env.as_str()) {
         (OS::Windows, "msvc") => "extern/lib/win64/microsoft/",
         (OS::Windows, "gnu") => "extern/lib/win64/mingw64/",
         (OS::Linux, _) => "bin/glnxa64/",
         _ => unimplemented!("Combination of {platform:?} and {target_env:?} not supported. Please raise an issue at https://github.com/Tastaturtaste/matlab-sys/issues with a description of your environment."),
     });
- 
+
     assert!(
         std::path::Path::new(&link_search_path)
             .try_exists()
-            .expect(&format!(
-                "Cannot check existence of path {link_search_path}"
-            )),
+            .unwrap_or_else(|_| panic!("Cannot check existence of path {link_search_path}")),
         "The path to the matlab link libraries does not exist: {link_search_path}"
     );
     println!("cargo:rustc-link-search={link_search_path}");
 
-    // Tell cargo which libraries to link. On linux the standard linker 'ld' prepends the prefix 'lib' automatically for all libraries 
+    // Tell cargo which libraries to link. On linux the standard linker 'ld' prepends the prefix 'lib' automatically for all libraries
     // while on windows the linker 'link.exe' uses the full filename, this step is handled separately depending on target platform.
     match platform {
-        OS::Windows => for lib in WIN_LINKNAMES{
-            println!("cargo:rustc-link-lib={lib}");
-        },
-        OS::Linux => for lib in LINUX_LINKNAMES{
-            println!("cargo:rustc-link-lib={lib}");
-        },
+        OS::Windows => {
+            for lib in WIN_LINKNAMES {
+                println!("cargo:rustc-link-lib={lib}");
+            }
+        }
+        OS::Linux => {
+            for lib in LINUX_LINKNAMES {
+                println!("cargo:rustc-link-lib={lib}");
+            }
+        }
         OS::MacOS => unimplemented!(),
     }
 }

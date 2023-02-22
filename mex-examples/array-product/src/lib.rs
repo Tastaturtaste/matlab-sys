@@ -2,15 +2,14 @@
 
 // Allow non-snake-case names for this example to stay as close to the C-Code as possible for comparability.
 #![allow(non_snake_case)]
-
-use matlab_sys::raw as bindings;
-use std::ffi::{c_double, c_int, CString};
+use matlab_sys::interleaved_complex as raw;
+use std::ffi::{c_int, CString};
 
 fn mexErrMsgIdAndTxt(identifier: &str, err_msg: &str) {
     unsafe {
         // rustc warns against the usage of pointers to temporary CStrings since they get destructed at the end of the statement and usually this is a problem. In this case the function must return first for the statement to end, which means the pointers to the temporary strings cannot dangle.
         #[allow(temporary_cstring_as_ptr)]
-        bindings::mexErrMsgIdAndTxt(
+        raw::mexErrMsgIdAndTxt(
             CString::new(identifier)
                 .expect("The passed string slice should not have internal 0 bytes")
                 .as_ptr(),
@@ -24,9 +23,9 @@ fn mexErrMsgIdAndTxt(identifier: &str, err_msg: &str) {
 #[no_mangle]
 pub unsafe extern "C" fn mexFunction(
     nlhs: c_int,
-    plhs: *mut *mut bindings::mxArray,
+    plhs: *mut *mut raw::mxArray,
     nrhs: c_int,
-    prhs: *const *const bindings::mxArray,
+    prhs: *const *const raw::mxArray,
 ) {
     if nrhs != 2 {
         mexErrMsgIdAndTxt("MyToolbox:arrayProduct:nrhs", "Two inputs required.");
@@ -39,9 +38,9 @@ pub unsafe extern "C" fn mexFunction(
     let prhs = std::slice::from_raw_parts(prhs, nrhs as usize);
 
     /* make sure the first input argument is scalar */
-    if !bindings::mxIsDouble(prhs[0])
-        || bindings::mxIsComplex(prhs[0])
-        || bindings::mxGetNumberOfElements(prhs[0]) != 1
+    if !raw::mxIsDouble(prhs[0])
+        || raw::mxIsComplex(prhs[0])
+        || raw::mxGetNumberOfElements(prhs[0]) != 1
     {
         mexErrMsgIdAndTxt(
             "MyToolbox:arrayProduct:notScalar",
@@ -49,7 +48,7 @@ pub unsafe extern "C" fn mexFunction(
         );
     }
 
-    if !bindings::mxIsDouble(prhs[1]) || bindings::mxIsComplex(prhs[1]) {
+    if !raw::mxIsDouble(prhs[1]) || raw::mxIsComplex(prhs[1]) {
         mexErrMsgIdAndTxt(
             "MyToolbox:arrayProduct:notDouble",
             "Input matrix must be type double.",
@@ -57,7 +56,7 @@ pub unsafe extern "C" fn mexFunction(
     }
 
     /* check that number of rows in second input argument is 1 */
-    if bindings::mxGetM(prhs[1]) != 1 {
+    if raw::mxGetM(prhs[1]) != 1 {
         mexErrMsgIdAndTxt(
             "MyToolbox:arrayProduct:notRowVector",
             "Input must be a row vector.",
@@ -65,25 +64,25 @@ pub unsafe extern "C" fn mexFunction(
     }
 
     /* get the value of the scalar input  */
-    let multiplier = bindings::mxGetScalar(prhs[0]);
+    let multiplier = raw::mxGetScalar(prhs[0]);
 
     /* create a pointer to the real data in the input matrix  */
-
-    let inMatrix = bindings::mxGetDoubles(prhs[1]);
+    let inMatrix = raw::mxGetDoubles(prhs[1]);
 
     /* get dimensions of the input matrix */
-    let ncols = bindings::mxGetN(prhs[1]);
+    let ncols = raw::mxGetN(prhs[1]);
 
     /* create the output matrix */
-    plhs[0] = bindings::mxCreateDoubleMatrix(1, ncols, bindings::mxComplexity_mxREAL);
+    plhs[0] = raw::mxCreateDoubleMatrix(1, ncols, raw::mxComplexity::mxREAL);
 
-    let outMatrix = bindings::mxGetDoubles(plhs[0]);
+    /* get a pointer to the real data in the output matrix */
+    let outMatrix = raw::mxGetDoubles(plhs[0]);
 
     /* call the computational routine */
     array_product(multiplier, inMatrix, outMatrix, ncols);
 }
 
-unsafe fn array_product(x: c_double, y: *mut c_double, z: *mut c_double, n: usize) {
+unsafe fn array_product(x: f64, y: *mut f64, z: *mut f64, n: usize) {
     unsafe {
         for i in 0..n {
             *z.add(i) = x * *y.add(i);

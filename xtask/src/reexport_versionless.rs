@@ -1,8 +1,12 @@
-use std::io::{BufRead, Write};
+use std::{
+    io::{BufRead, Write},
+    path::PathBuf,
+    str::FromStr,
+};
 
 use anyhow::{self, Context, Ok};
-use pico_args;
-use regex;
+
+
 // The command line arguments should be key-value pairs, with the api version as the key and the corresponding filepath as the value, e.g. '-API700=./bindings_700.rs or -API700 ./bindings_700.rs'
 pub fn reexport_versionless(mut arguments: pico_args::Arguments) -> anyhow::Result<()> {
     let mut version_files: Vec<(_, String)> = Vec::new();
@@ -18,6 +22,11 @@ pub fn reexport_versionless(mut arguments: pico_args::Arguments) -> anyhow::Resu
     {
         version_files.push((800, path))
     }
+    let out_file = arguments
+        .value_from_str("-o")
+        .or_else(|_| arguments.value_from_str("--out"))
+        .or(PathBuf::from_str("./reexports.rs"))
+        .unwrap();
     let remaining_arguments = arguments.finish();
     if !remaining_arguments.is_empty() {
         anyhow::bail!("Unknown arguments{:?}", remaining_arguments);
@@ -28,7 +37,7 @@ pub fn reexport_versionless(mut arguments: pico_args::Arguments) -> anyhow::Resu
     let reexport_file = std::fs::File::options()
         .create_new(true)
         .write(true)
-        .open("./reexports.rs")?;
+        .open(out_file)?;
     let mut reexport_writer = std::io::BufWriter::new(reexport_file);
 
     let fn_pattern = regex::Regex::new(r"pub fn ([a-zA-Z0-9_]+?)(_700|_730|_800)?\s*\(")?;
@@ -50,14 +59,8 @@ pub fn reexport_versionless(mut arguments: pico_args::Arguments) -> anyhow::Resu
         for line in version_file_reader.lines() {
             let line = line?;
             if let Some(captures) = fn_pattern.captures(&line) {
-                let function_stem = &captures[1];
-                if let Some(version_suffix) = captures.get(2).map(|m| m.as_str()) {
-                    reexport_writer.write_all(
-                        format!("{0}{1} as {0},\n", function_stem, version_suffix).as_bytes(),
-                    )?;
-                } else {
-                    reexport_writer.write_all(format!("{function_stem},\n").as_bytes())?;
-                }
+                let function_name = &captures[1];
+                reexport_writer.write_all(format!("{function_name},\n").as_bytes())?;
             } else if let Some(captures) = type_pattern.captures(&line) {
                 let type_name = &captures[1];
                 reexport_writer.write_all(format!("{type_name},\n").as_bytes())?;
@@ -66,8 +69,8 @@ pub fn reexport_versionless(mut arguments: pico_args::Arguments) -> anyhow::Resu
                 reexport_writer.write_all(format!("{},\n", const_name).as_bytes())?;
             } else if let Some(captures) = struct_pattern.captures(&line) {
                 let struct_name = &captures[1];
-                // Skip the types with leading underscore as they are not part of the intended public API and only used as for type aliases.
-                if struct_name.chars().next() == Some('_') {
+                // Skip the types with leading underscore as they are not part of the intended public API and only used for type aliases.
+                if struct_name.starts_with('_') {
                     continue;
                 }
                 // Skip the types with a _tag or _Tag suffix as they are not part of the intended public API and only used for type aliases.

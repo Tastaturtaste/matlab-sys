@@ -3,7 +3,7 @@ This file should only contain code to read in the command line arguments in and 
 */
 
 use anyhow::Result;
-use pico_args;
+
 mod generate_bindings;
 mod publish;
 mod reexport_versionless;

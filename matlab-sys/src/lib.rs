@@ -1,8 +1,10 @@
-/*!
- * This library exposes the raw Matlab C-API analogous to the one exposed by the header files 'mex.h', 'matrix.h' and 'mat.h' in C. Depending on the selected features for the representation of complex numbers some functions will change how they interpret their arguments and some Data Types change how complex numbers are stored. These differences can be looked up in the [regular documentation provided by Matlab](https://de.mathworks.com/help/matlab/matlab_external/matlab-support-for-interleaved-complex.html).
- */
+#![doc = include_str!(concat!(env!("CARGO_MANIFEST_DIR"),"/README.md"))]
 
-#[cfg(not(any(feature = "separate-complex", feature = "interleaved-complex")))]
-compile_error!("Either the separate-complex or interleaved-complex feature has to be set");
+#[cfg(not(target_pointer_width = "64"))]
+compile_error!("The bindings are only valid for 64-bit applications. All Matlab versions after 2015b are only available in 64-bit.");
 
-pub mod raw;
+mod raw;
+#[cfg(feature = "interleaved-complex")]
+pub use raw::interleaved_complex;
+#[cfg(feature = "separate-complex")]
+pub use raw::separate_complex;

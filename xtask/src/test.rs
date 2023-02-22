@@ -4,8 +4,16 @@ use anyhow::Ok;
 const TEST_EXAMPLES: &[&str] = &["array-product", "mex-call-matlab", "array-size"];
 
 pub fn test(_arguments: pico_args::Arguments) -> anyhow::Result<()> {
-    // Specify all mex examples to be used for the tests
-    // Compile all mex examples
+
+    // Make sure the most recent version gets run
+    std::process::Command::new("cargo")
+        .arg("clean")
+        .arg("-p")
+        .arg("matlab-sys")
+        .spawn()
+        .expect("Could not spawn the cargo clean process")
+        .wait()?;
+    // Compile all test examples
     let mut cargo_process = std::process::Command::new("cargo");
     cargo_process.arg("build");
     for example in TEST_EXAMPLES {
@@ -13,7 +21,14 @@ pub fn test(_arguments: pico_args::Arguments) -> anyhow::Result<()> {
     }
     cargo_process
         .spawn()
-        .expect("Could not build test projects")
+        .expect("Could not spawn the cargo build process")
+        .wait()?;
+    // Run doctests
+    std::process::Command::new("cargo")
+        .arg("test")
+        .arg("--doc")
+        .spawn()
+        .expect("Could not spawn the cargo test --doc process")
         .wait()?;
 
     // Change directory to the target directory, where this program is assumed to live

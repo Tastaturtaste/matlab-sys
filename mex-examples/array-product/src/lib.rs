@@ -3,7 +3,7 @@
 // Allow non-snake-case names for this example to stay as close to the C-Code as possible for comparability.
 #![allow(non_snake_case)]
 use matlab_sys::interleaved_complex as raw;
-use std::ffi::{c_double, c_int, CString};
+use std::ffi::{c_int, CString};
 
 fn mexErrMsgIdAndTxt(identifier: &str, err_msg: &str) {
     unsafe {
@@ -75,13 +75,14 @@ pub unsafe extern "C" fn mexFunction(
     /* create the output matrix */
     plhs[0] = raw::mxCreateDoubleMatrix(1, ncols, raw::mxComplexity::mxREAL);
 
+    /* get a pointer to the real data in the output matrix */
     let outMatrix = raw::mxGetDoubles(plhs[0]);
 
     /* call the computational routine */
     array_product(multiplier, inMatrix, outMatrix, ncols);
 }
 
-unsafe fn array_product(x: c_double, y: *mut c_double, z: *mut c_double, n: usize) {
+unsafe fn array_product(x: f64, y: *mut f64, z: *mut f64, n: usize) {
     unsafe {
         for i in 0..n {
             *z.add(i) = x * *y.add(i);

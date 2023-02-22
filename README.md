@@ -23,20 +23,80 @@ and rustc-link-search keys. Further information can be found [here](https://doc.
 To build a mex function in Rust the crate type has to be a dynamic link library with a C ABI. In your `cargo.toml` 
 set `crate-type = ["cdylib"]`. Every MEX function, regardless what name it will be called with from Matlab, needs an 
 entry point with the following signature:
-```rust
+```rust ignore
 #[no_mangle]
 pub unsafe extern "C" fn mexFunction(
     nlhs: c_int,
     plhs: *mut *mut mxArray,
     nrhs: c_int,
     prhs: *const *const mxArray,
-)
+){/* your calculation */}
 ```
-Examples can be found in the [mex-examples directory](mex-examples/). These examples are direct translations of the 
-original examples as distributed with Matlab in `matlabroot/extern/examples`. They are also used as tests for the 
-bindings, as such they should always compile and work. After building the file extension of the build artifact has to 
-be changed to `*.mexw64` for windows or `*.mexa64` for linux. The filename without extension is the name of the 
-function callable in Matlab. 
+After building, change the file extension of the build artifact to `*.mexw64` for windows or `*.mexa64` for 
+linux. Copy the renamed file somewhere where Matlab can find it. You should now be able to call your mex function using 
+the filename without its extension.
+
+### Examples
+A quick and simple translation of the [arrayProduct][array-product] example, which multiplies a scalar with a matrix (without most error handling 
+for brevity) would look like this:
+```rust no_run
+use matlab_sys::interleaved_complex as raw;
+use std::ffi::{c_int, CString};
+#[no_mangle]
+pub unsafe extern "C" fn mexFunction(
+    nlhs: c_int,
+    plhs: *mut *mut raw::mxArray,
+    nrhs: c_int,
+    prhs: *const *const raw::mxArray,
+) {
+    if nrhs != 2 {
+        // Letting the standard library do the work of making Rusts strings C-compatible
+        raw::mexErrMsgIdAndTxt(
+            CString::new("MyToolbox:arrayProduct:nrhs").unwrap().as_ptr(), 
+            CString::new("Two inputs required.").unwrap().as_ptr()
+        );
+    }
+    if nlhs != 1 {
+        // Writing C-compatible strings manually
+        raw::mexErrMsgIdAndTxt(
+            b"MyToolbox:arrayProduct:nlhs\0".as_ptr().cast(), 
+            b"One output required.\0".as_ptr().cast()
+        );
+    }
+    // SAFETY: nlhs and nrhs should get verified to be greater or equal to 0 and all pointers should get tested for validity
+    let plhs = std::slice::from_raw_parts_mut(plhs, nlhs as usize);
+    let prhs = std::slice::from_raw_parts(prhs, nrhs as usize);
+
+    /* get the value of the scalar input  */
+    let multiplier = raw::mxGetScalar(prhs[0]);
+
+    /* create a pointer to the real data in the input matrix  */
+    let inMatrix = raw::mxGetDoubles(prhs[1]);
+
+    /* get dimensions of the input matrix */
+    let ncols = raw::mxGetN(prhs[1]);
+
+    /* create the output matrix */
+    plhs[0] = raw::mxCreateDoubleMatrix(1, ncols, raw::mxComplexity::mxREAL);
+
+    /* get a pointer to the real data in the output matrix */
+    let outMatrix = raw::mxGetDoubles(plhs[0]);
+
+    /* call the computational routine */
+    array_product(multiplier, inMatrix, outMatrix, ncols);
+}
+
+unsafe fn array_product(x: f64, y: *mut f64, z: *mut f64, n: usize) {
+    unsafe {
+        for i in 0..n {
+            *z.add(i) = x * *y.add(i);
+        }
+    }
+}
+```
+More examples can be found in the [mex-examples][mex-examples-github-master] directory. These examples are direct translations of the 
+original C examples as distributed with Matlab in `matlabroot/extern/examples`. They are also used as tests for the 
+bindings, as such they should always compile and work. 
 
 ### Building abstractions on top of `matlab-sys`
 While the ability of Rust to interact with C libraries is nice, its true power lies in its ability to build safe, ergonomic, 
@@ -52,9 +112,12 @@ While most functions present in the [separate-complex] API are also present in t
 differences]. The [interleaved-complex] API for instance provides new convenient and safe(er) typed data access functionality. 
 Most importantly though, some types have a different representation (e.g. [mxArray] of complex numbers) and some functions 
 behave differently even though the API stayed the same (e.g. [mxGetData]). To minimize the resulting risk of confusion 
-between both versions of the API, `matlab-sys` exposes them in separate namespaces. **Do not use functions of one namespace with types of the other one. Since the namespace is part of the type, Rust's type system helps to prevent this issue.** 
-To further prevent this issue it is recommended to activate only the API you intend to use in your crate using the corresponding features. 
-More information about the differences of the APIs can be found [here][Complex Storage Documentation].
+between both versions of the API, `matlab-sys` exposes them in separate namespaces.   
+
+**Do not use functions of one namespace with types of the other one.** 
+Since the namespace is part of the type, Rust's type system helps to prevent this issue. To further prevent this issue it 
+is recommended to activate only the API you intend to use in your crate using the corresponding features. More information 
+about the differences of the APIs can be found [here][Complex Storage Documentation].
 
 
 In Matlab it is impossible to enable both versions of the API at the same time when using the `mex` command,
@@ -95,3 +158,5 @@ For all newer releases this is the recommended API.
 [unifies all features]: https://doc.rust-lang.org/cargo/reference/features.html?highlight=additive#feature-unification
 [mxArray]: https://de.mathworks.com/help/matlab/matlab_external/matlab-data.html
 [mxGetData]: https://de.mathworks.com/help/matlab/apiref/mxgetdata.html
+[mex-examples-github-master]: https://github.com/Tastaturtaste/matlab-sys/tree/master/mex-examples
+[array-product]: https://de.mathworks.com/help/matlab/matlab_external/standalone-example.html

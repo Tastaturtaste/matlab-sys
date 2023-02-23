@@ -17,6 +17,7 @@
    3. `git tag -a _version_`
 8. Push master.
    1. `git push origin master`
+   2. `git push --tags origin`
 9.  Publish the release to [crates.io](https://crates.io/) with the custom publish task.
    1. `cargo xtask publish`
 10. Merge the changes made in the `release-_version` branch back into the `dev` branch.

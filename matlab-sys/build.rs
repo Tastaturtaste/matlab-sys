@@ -5,6 +5,10 @@ const LINUX_LINKNAMES: &[&str] = &["mex", "mx", "mat", "eng"];
 const WIN_LINKNAMES: &[&str] = &["libmex", "libmx", "libmat", "libeng"];
 
 fn main() {
+    // Check if we run on docs.rs and return early. We don't need to link to build documentation.
+    if std::env::var("DOCS_RS").is_ok(){
+        return
+    }
     // Check which platform we run on.
     let platform = match std::env::var("CARGO_CFG_TARGET_OS")
         .as_deref()

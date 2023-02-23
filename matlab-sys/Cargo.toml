@@ -2,7 +2,7 @@
 name = "matlab-sys"
 version = "0.3.1"
 edition = "2021"
-authors = ["Tatstaturtaste <joshua.moellers@gmx.net>"]
+authors = ["Tastaturtaste <joshua.moellers@gmx.net>"]
 readme = "./README.md"
 license = "MIT OR Apache-2.0"
 description = "Rust bindings for the Matlab C API"

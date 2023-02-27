@@ -1,10 +1,11 @@
+use std::str::FromStr;
+
 use anyhow::Ok;
 
 // Run examples as tests
-const TEST_EXAMPLES: &[&str] = &["array-product", "mex-call-matlab", "array-size"];
+const TEST_EXAMPLES: &[&str] = &["array-product", "mex-call-matlab", "array-size", "explore"];
 
 pub fn test(_arguments: pico_args::Arguments) -> anyhow::Result<()> {
-
     // Make sure the most recent version gets run
     std::process::Command::new("cargo")
         .arg("clean")
@@ -47,10 +48,20 @@ pub fn test(_arguments: pico_args::Arguments) -> anyhow::Result<()> {
             .unwrap(),
     )?;
 
+    let matlab_files_dir = std::path::PathBuf::from_str(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../tests/matlab_files/"
+    ))
+    .unwrap()
+    .to_path_buf();
     println!("Running tests in Matlab...");
+    // assertSuccess is only available from matlab release 2020a and onward.
     let result = std::process::Command::new("matlab")
         .arg("-batch")
-        .arg(include_str!("./test.m"))
+        .arg(format!(
+            "addpath('{}'); assertSuccess(runtests('test'))",
+            matlab_files_dir.canonicalize().unwrap().to_str().unwrap()
+        ))
         .output()
         .expect("Couldn't spawn matlab process for testing");
     let exitcode = result.status;

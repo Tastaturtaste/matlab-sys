@@ -3,11 +3,12 @@
 
 const LINUX_LINKNAMES: &[&str] = &["mex", "mx", "mat", "eng"];
 const WIN_LINKNAMES: &[&str] = &["libmex", "libmx", "libmat", "libeng"];
+const MACOS_LINKNAMES: &[&str] = &["mex", "mx", "mat", "eng"];
 
 fn main() {
     // Check if we run on docs.rs and return early. We don't need to link to build documentation.
-    if std::env::var("DOCS_RS").is_ok(){
-        return
+    if std::env::var("DOCS_RS").is_ok() {
+        return;
     }
     // Check which platform we run on.
     let platform = match std::env::var("CARGO_CFG_TARGET_OS")
@@ -38,6 +39,7 @@ fn main() {
         (OS::Windows, "msvc") => "extern/lib/win64/microsoft/",
         (OS::Windows, "gnu") => "extern/lib/win64/mingw64/",
         (OS::Linux, _) => "bin/glnxa64/",
+        (OS::MacOS, _) => "bin/maci64/",
         _ => unimplemented!("Combination of {platform:?} and {target_env:?} not supported. Please raise an issue at https://github.com/Tastaturtaste/matlab-sys/issues with a description of your environment."),
     });
 
@@ -62,7 +64,11 @@ fn main() {
                 println!("cargo:rustc-link-lib={lib}");
             }
         }
-        OS::MacOS => unimplemented!(),
+        OS::MacOS => {
+            for lib in MACOS_LINKNAMES {
+                println!("cargo:rustc-link-lib={lib}");
+            }
+        }
     }
 }
 

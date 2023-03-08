@@ -135,423 +135,423 @@ pub mod mxComplexity {
     pub const mxCOMPLEX: Type = 1;
 }
 extern "C" {
-    #[link_name = "\u{1}mxMalloc_800"]
+    #[link_name = "mxMalloc_800"]
     pub fn mxMalloc(n: usize) -> *mut ::core::ffi::c_void;
-    #[link_name = "\u{1}mxCalloc_800"]
+    #[link_name = "mxCalloc_800"]
     pub fn mxCalloc(n: usize, size: usize) -> *mut ::core::ffi::c_void;
-    #[link_name = "\u{1}mxFree_800"]
+    #[link_name = "mxFree_800"]
     pub fn mxFree(ptr: *mut ::core::ffi::c_void);
-    #[link_name = "\u{1}mxRealloc_800"]
+    #[link_name = "mxRealloc_800"]
     pub fn mxRealloc(ptr: *mut ::core::ffi::c_void, size: usize) -> *mut ::core::ffi::c_void;
-    #[link_name = "\u{1}mxGetNumberOfDimensions_800"]
+    #[link_name = "mxGetNumberOfDimensions_800"]
     pub fn mxGetNumberOfDimensions(pa: *const mxArray) -> mwSize;
-    #[link_name = "\u{1}mxGetDimensions_800"]
+    #[link_name = "mxGetDimensions_800"]
     pub fn mxGetDimensions(pa: *const mxArray) -> *const mwSize;
-    #[link_name = "\u{1}mxGetM_800"]
+    #[link_name = "mxGetM_800"]
     pub fn mxGetM(pa: *const mxArray) -> usize;
-    #[link_name = "\u{1}mxGetIr_800"]
+    #[link_name = "mxGetIr_800"]
     pub fn mxGetIr(pa: *const mxArray) -> *mut mwIndex;
-    #[link_name = "\u{1}mxGetJc_800"]
+    #[link_name = "mxGetJc_800"]
     pub fn mxGetJc(pa: *const mxArray) -> *mut mwIndex;
-    #[link_name = "\u{1}mxGetNzmax_800"]
+    #[link_name = "mxGetNzmax_800"]
     pub fn mxGetNzmax(pa: *const mxArray) -> mwSize;
-    #[link_name = "\u{1}mxSetNzmax_800"]
+    #[link_name = "mxSetNzmax_800"]
     pub fn mxSetNzmax(pa: *mut mxArray, nzmax: mwSize);
-    #[link_name = "\u{1}mxGetFieldNameByNumber_800"]
+    #[link_name = "mxGetFieldNameByNumber_800"]
     pub fn mxGetFieldNameByNumber(
         pa: *const mxArray,
         n: ::core::ffi::c_int,
     ) -> *const ::core::ffi::c_char;
-    #[link_name = "\u{1}mxGetFieldByNumber_800"]
+    #[link_name = "mxGetFieldByNumber_800"]
     pub fn mxGetFieldByNumber(
         pa: *const mxArray,
         i: mwIndex,
         fieldnum: ::core::ffi::c_int,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxGetCell_800"]
+    #[link_name = "mxGetCell_800"]
     pub fn mxGetCell(pa: *const mxArray, i: mwIndex) -> *mut mxArray;
-    #[link_name = "\u{1}mxGetClassID_800"]
+    #[link_name = "mxGetClassID_800"]
     pub fn mxGetClassID(pa: *const mxArray) -> mxClassID::Type;
-    #[link_name = "\u{1}mxGetData_800"]
+    #[link_name = "mxGetData_800"]
     pub fn mxGetData(pa: *const mxArray) -> *mut ::core::ffi::c_void;
-    #[link_name = "\u{1}mxSetData_800"]
+    #[link_name = "mxSetData_800"]
     pub fn mxSetData(pa: *mut mxArray, newdata: *mut ::core::ffi::c_void);
-    #[link_name = "\u{1}mxIsNumeric_800"]
+    #[link_name = "mxIsNumeric_800"]
     pub fn mxIsNumeric(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsCell_800"]
+    #[link_name = "mxIsCell_800"]
     pub fn mxIsCell(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsLogical_800"]
+    #[link_name = "mxIsLogical_800"]
     pub fn mxIsLogical(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsScalar_800"]
+    #[link_name = "mxIsScalar_800"]
     pub fn mxIsScalar(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsChar_800"]
+    #[link_name = "mxIsChar_800"]
     pub fn mxIsChar(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsStruct_800"]
+    #[link_name = "mxIsStruct_800"]
     pub fn mxIsStruct(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsOpaque_800"]
+    #[link_name = "mxIsOpaque_800"]
     pub fn mxIsOpaque(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsFunctionHandle_800"]
+    #[link_name = "mxIsFunctionHandle_800"]
     pub fn mxIsFunctionHandle(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsObject_800"]
+    #[link_name = "mxIsObject_800"]
     pub fn mxIsObject(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsComplex_800"]
+    #[link_name = "mxIsComplex_800"]
     pub fn mxIsComplex(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsSparse_800"]
+    #[link_name = "mxIsSparse_800"]
     pub fn mxIsSparse(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsDouble_800"]
+    #[link_name = "mxIsDouble_800"]
     pub fn mxIsDouble(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsSingle_800"]
+    #[link_name = "mxIsSingle_800"]
     pub fn mxIsSingle(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsInt8_800"]
+    #[link_name = "mxIsInt8_800"]
     pub fn mxIsInt8(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsUint8_800"]
+    #[link_name = "mxIsUint8_800"]
     pub fn mxIsUint8(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsInt16_800"]
+    #[link_name = "mxIsInt16_800"]
     pub fn mxIsInt16(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsUint16_800"]
+    #[link_name = "mxIsUint16_800"]
     pub fn mxIsUint16(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsInt32_800"]
+    #[link_name = "mxIsInt32_800"]
     pub fn mxIsInt32(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsUint32_800"]
+    #[link_name = "mxIsUint32_800"]
     pub fn mxIsUint32(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsInt64_800"]
+    #[link_name = "mxIsInt64_800"]
     pub fn mxIsInt64(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsUint64_800"]
+    #[link_name = "mxIsUint64_800"]
     pub fn mxIsUint64(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxGetNumberOfElements_800"]
+    #[link_name = "mxGetNumberOfElements_800"]
     pub fn mxGetNumberOfElements(pa: *const mxArray) -> usize;
-    #[link_name = "\u{1}mxGetChars_800"]
+    #[link_name = "mxGetChars_800"]
     pub fn mxGetChars(pa: *const mxArray) -> *mut mxChar;
-    #[link_name = "\u{1}mxGetUserBits_800"]
+    #[link_name = "mxGetUserBits_800"]
     pub fn mxGetUserBits(pa: *const mxArray) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxSetUserBits_800"]
+    #[link_name = "mxSetUserBits_800"]
     pub fn mxSetUserBits(pa: *mut mxArray, value: ::core::ffi::c_int);
-    #[link_name = "\u{1}mxGetScalar_800"]
+    #[link_name = "mxGetScalar_800"]
     pub fn mxGetScalar(pa: *const mxArray) -> f64;
-    #[link_name = "\u{1}mxIsFromGlobalWS_800"]
+    #[link_name = "mxIsFromGlobalWS_800"]
     pub fn mxIsFromGlobalWS(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxSetFromGlobalWS_800"]
+    #[link_name = "mxSetFromGlobalWS_800"]
     pub fn mxSetFromGlobalWS(pa: *mut mxArray, global: bool);
-    #[link_name = "\u{1}mxSetM_800"]
+    #[link_name = "mxSetM_800"]
     pub fn mxSetM(pa: *mut mxArray, m: mwSize);
-    #[link_name = "\u{1}mxGetN_800"]
+    #[link_name = "mxGetN_800"]
     pub fn mxGetN(pa: *const mxArray) -> usize;
-    #[link_name = "\u{1}mxIsEmpty_800"]
+    #[link_name = "mxIsEmpty_800"]
     pub fn mxIsEmpty(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxGetFieldNumber_800"]
+    #[link_name = "mxGetFieldNumber_800"]
     pub fn mxGetFieldNumber(
         pa: *const mxArray,
         name: *const ::core::ffi::c_char,
     ) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxSetIr_800"]
+    #[link_name = "mxSetIr_800"]
     pub fn mxSetIr(pa: *mut mxArray, newir: *mut mwIndex);
-    #[link_name = "\u{1}mxSetJc_800"]
+    #[link_name = "mxSetJc_800"]
     pub fn mxSetJc(pa: *mut mxArray, newjc: *mut mwIndex);
-    #[link_name = "\u{1}mxGetPr_800"]
+    #[link_name = "mxGetPr_800"]
     pub fn mxGetPr(pa: *const mxArray) -> *mut f64;
-    #[link_name = "\u{1}mxSetPr_800"]
+    #[link_name = "mxSetPr_800"]
     pub fn mxSetPr(pa: *mut mxArray, newdata: *mut f64);
-    #[link_name = "\u{1}mxGetElementSize_800"]
+    #[link_name = "mxGetElementSize_800"]
     pub fn mxGetElementSize(pa: *const mxArray) -> usize;
-    #[link_name = "\u{1}mxCalcSingleSubscript_800"]
+    #[link_name = "mxCalcSingleSubscript_800"]
     pub fn mxCalcSingleSubscript(
         pa: *const mxArray,
         nsubs: mwSize,
         subs: *const mwIndex,
     ) -> mwIndex;
-    #[link_name = "\u{1}mxGetNumberOfFields_800"]
+    #[link_name = "mxGetNumberOfFields_800"]
     pub fn mxGetNumberOfFields(pa: *const mxArray) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxSetCell_800"]
+    #[link_name = "mxSetCell_800"]
     pub fn mxSetCell(pa: *mut mxArray, i: mwIndex, value: *mut mxArray);
-    #[link_name = "\u{1}mxSetFieldByNumber_800"]
+    #[link_name = "mxSetFieldByNumber_800"]
     pub fn mxSetFieldByNumber(
         pa: *mut mxArray,
         i: mwIndex,
         fieldnum: ::core::ffi::c_int,
         value: *mut mxArray,
     );
-    #[link_name = "\u{1}mxGetField_800"]
+    #[link_name = "mxGetField_800"]
     pub fn mxGetField(
         pa: *const mxArray,
         i: mwIndex,
         fieldname: *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxSetField_800"]
+    #[link_name = "mxSetField_800"]
     pub fn mxSetField(
         pa: *mut mxArray,
         i: mwIndex,
         fieldname: *const ::core::ffi::c_char,
         value: *mut mxArray,
     );
-    #[link_name = "\u{1}mxGetProperty_800"]
+    #[link_name = "mxGetProperty_800"]
     pub fn mxGetProperty(
         pa: *const mxArray,
         i: mwIndex,
         propname: *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxSetProperty_800"]
+    #[link_name = "mxSetProperty_800"]
     pub fn mxSetProperty(
         pa: *mut mxArray,
         i: mwIndex,
         propname: *const ::core::ffi::c_char,
         value: *const mxArray,
     );
-    #[link_name = "\u{1}mxGetClassName_800"]
+    #[link_name = "mxGetClassName_800"]
     pub fn mxGetClassName(pa: *const mxArray) -> *const ::core::ffi::c_char;
-    #[link_name = "\u{1}mxIsClass_800"]
+    #[link_name = "mxIsClass_800"]
     pub fn mxIsClass(pa: *const mxArray, name: *const ::core::ffi::c_char) -> bool;
-    #[link_name = "\u{1}mxCreateNumericMatrix_800"]
+    #[link_name = "mxCreateNumericMatrix_800"]
     pub fn mxCreateNumericMatrix(
         m: mwSize,
         n: mwSize,
         classid: mxClassID::Type,
         flag: mxComplexity::Type,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateUninitNumericMatrix_800"]
+    #[link_name = "mxCreateUninitNumericMatrix_800"]
     pub fn mxCreateUninitNumericMatrix(
         m: usize,
         n: usize,
         classid: mxClassID::Type,
         flag: mxComplexity::Type,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateUninitNumericArray_800"]
+    #[link_name = "mxCreateUninitNumericArray_800"]
     pub fn mxCreateUninitNumericArray(
         ndim: usize,
         dims: *mut usize,
         classid: mxClassID::Type,
         flag: mxComplexity::Type,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxSetN_800"]
+    #[link_name = "mxSetN_800"]
     pub fn mxSetN(pa: *mut mxArray, n: mwSize);
-    #[link_name = "\u{1}mxSetDimensions_800"]
+    #[link_name = "mxSetDimensions_800"]
     pub fn mxSetDimensions(
         pa: *mut mxArray,
         pdims: *const mwSize,
         ndims: mwSize,
     ) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxDestroyArray_800"]
+    #[link_name = "mxDestroyArray_800"]
     pub fn mxDestroyArray(pa: *mut mxArray);
-    #[link_name = "\u{1}mxCreateNumericArray_800"]
+    #[link_name = "mxCreateNumericArray_800"]
     pub fn mxCreateNumericArray(
         ndim: mwSize,
         dims: *const mwSize,
         classid: mxClassID::Type,
         flag: mxComplexity::Type,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateCharArray_800"]
+    #[link_name = "mxCreateCharArray_800"]
     pub fn mxCreateCharArray(ndim: mwSize, dims: *const mwSize) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateDoubleMatrix_800"]
+    #[link_name = "mxCreateDoubleMatrix_800"]
     pub fn mxCreateDoubleMatrix(m: mwSize, n: mwSize, flag: mxComplexity::Type) -> *mut mxArray;
-    #[link_name = "\u{1}mxGetLogicals_800"]
+    #[link_name = "mxGetLogicals_800"]
     pub fn mxGetLogicals(pa: *const mxArray) -> *mut mxLogical;
-    #[link_name = "\u{1}mxCreateLogicalArray_800"]
+    #[link_name = "mxCreateLogicalArray_800"]
     pub fn mxCreateLogicalArray(ndim: mwSize, dims: *const mwSize) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateLogicalMatrix_800"]
+    #[link_name = "mxCreateLogicalMatrix_800"]
     pub fn mxCreateLogicalMatrix(m: mwSize, n: mwSize) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateLogicalScalar_800"]
+    #[link_name = "mxCreateLogicalScalar_800"]
     pub fn mxCreateLogicalScalar(value: bool) -> *mut mxArray;
-    #[link_name = "\u{1}mxIsLogicalScalar_800"]
+    #[link_name = "mxIsLogicalScalar_800"]
     pub fn mxIsLogicalScalar(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxIsLogicalScalarTrue_800"]
+    #[link_name = "mxIsLogicalScalarTrue_800"]
     pub fn mxIsLogicalScalarTrue(pa: *const mxArray) -> bool;
-    #[link_name = "\u{1}mxCreateDoubleScalar_800"]
+    #[link_name = "mxCreateDoubleScalar_800"]
     pub fn mxCreateDoubleScalar(value: f64) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateSparse_800"]
+    #[link_name = "mxCreateSparse_800"]
     pub fn mxCreateSparse(
         m: mwSize,
         n: mwSize,
         nzmax: mwSize,
         flag: mxComplexity::Type,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateSparseLogicalMatrix_800"]
+    #[link_name = "mxCreateSparseLogicalMatrix_800"]
     pub fn mxCreateSparseLogicalMatrix(m: mwSize, n: mwSize, nzmax: mwSize) -> *mut mxArray;
-    #[link_name = "\u{1}mxGetNChars_800"]
+    #[link_name = "mxGetNChars_800"]
     pub fn mxGetNChars(pa: *const mxArray, buf: *mut ::core::ffi::c_char, nChars: mwSize);
-    #[link_name = "\u{1}mxGetString_800"]
+    #[link_name = "mxGetString_800"]
     pub fn mxGetString(
         pa: *const mxArray,
         buf: *mut ::core::ffi::c_char,
         buflen: mwSize,
     ) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxArrayToString_800"]
+    #[link_name = "mxArrayToString_800"]
     pub fn mxArrayToString(pa: *const mxArray) -> *mut ::core::ffi::c_char;
-    #[link_name = "\u{1}mxArrayToUTF8String_800"]
+    #[link_name = "mxArrayToUTF8String_800"]
     pub fn mxArrayToUTF8String(pa: *const mxArray) -> *mut ::core::ffi::c_char;
-    #[link_name = "\u{1}mxCreateStringFromNChars_800"]
+    #[link_name = "mxCreateStringFromNChars_800"]
     pub fn mxCreateStringFromNChars(str_: *const ::core::ffi::c_char, n: mwSize) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateString_800"]
+    #[link_name = "mxCreateString_800"]
     pub fn mxCreateString(str_: *const ::core::ffi::c_char) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateCharMatrixFromStrings_800"]
+    #[link_name = "mxCreateCharMatrixFromStrings_800"]
     pub fn mxCreateCharMatrixFromStrings(
         m: mwSize,
         str_: *mut *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateCellMatrix_800"]
+    #[link_name = "mxCreateCellMatrix_800"]
     pub fn mxCreateCellMatrix(m: mwSize, n: mwSize) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateCellArray_800"]
+    #[link_name = "mxCreateCellArray_800"]
     pub fn mxCreateCellArray(ndim: mwSize, dims: *const mwSize) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateStructMatrix_800"]
+    #[link_name = "mxCreateStructMatrix_800"]
     pub fn mxCreateStructMatrix(
         m: mwSize,
         n: mwSize,
         nfields: ::core::ffi::c_int,
         fieldnames: *mut *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateStructArray_800"]
+    #[link_name = "mxCreateStructArray_800"]
     pub fn mxCreateStructArray(
         ndim: mwSize,
         dims: *const mwSize,
         nfields: ::core::ffi::c_int,
         fieldnames: *mut *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxDuplicateArray_800"]
+    #[link_name = "mxDuplicateArray_800"]
     pub fn mxDuplicateArray(in_: *const mxArray) -> *mut mxArray;
-    #[link_name = "\u{1}mxSetClassName_800"]
+    #[link_name = "mxSetClassName_800"]
     pub fn mxSetClassName(
         pa: *mut mxArray,
         classname: *const ::core::ffi::c_char,
     ) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxAddField_800"]
+    #[link_name = "mxAddField_800"]
     pub fn mxAddField(
         pa: *mut mxArray,
         fieldname: *const ::core::ffi::c_char,
     ) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxRemoveField_800"]
+    #[link_name = "mxRemoveField_800"]
     pub fn mxRemoveField(pa: *mut mxArray, field: ::core::ffi::c_int);
-    #[link_name = "\u{1}mxGetEps_800"]
+    #[link_name = "mxGetEps_800"]
     pub fn mxGetEps() -> f64;
-    #[link_name = "\u{1}mxGetInf_800"]
+    #[link_name = "mxGetInf_800"]
     pub fn mxGetInf() -> f64;
-    #[link_name = "\u{1}mxGetNaN_800"]
+    #[link_name = "mxGetNaN_800"]
     pub fn mxGetNaN() -> f64;
-    #[link_name = "\u{1}mxIsFinite_800"]
+    #[link_name = "mxIsFinite_800"]
     pub fn mxIsFinite(x: f64) -> bool;
-    #[link_name = "\u{1}mxIsInf_800"]
+    #[link_name = "mxIsInf_800"]
     pub fn mxIsInf(x: f64) -> bool;
-    #[link_name = "\u{1}mxIsNaN_800"]
+    #[link_name = "mxIsNaN_800"]
     pub fn mxIsNaN(x: f64) -> bool;
-    #[link_name = "\u{1}mxGetDoubles_800"]
+    #[link_name = "mxGetDoubles_800"]
     pub fn mxGetDoubles(arg1: *const mxArray) -> *mut f64;
-    #[link_name = "\u{1}mxSetDoubles_800"]
+    #[link_name = "mxSetDoubles_800"]
     pub fn mxSetDoubles(arg1: *mut mxArray, arg2: *mut f64) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetComplexDoubles_800"]
+    #[link_name = "mxGetComplexDoubles_800"]
     pub fn mxGetComplexDoubles(arg1: *const mxArray) -> *mut mxComplexDouble;
-    #[link_name = "\u{1}mxSetComplexDoubles_800"]
+    #[link_name = "mxSetComplexDoubles_800"]
     pub fn mxSetComplexDoubles(
         arg1: *mut mxArray,
         arg2: *mut mxComplexDouble,
     ) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetSingles_800"]
+    #[link_name = "mxGetSingles_800"]
     pub fn mxGetSingles(arg1: *const mxArray) -> *mut f32;
-    #[link_name = "\u{1}mxSetSingles_800"]
+    #[link_name = "mxSetSingles_800"]
     pub fn mxSetSingles(arg1: *mut mxArray, arg2: *mut f32) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetComplexSingles_800"]
+    #[link_name = "mxGetComplexSingles_800"]
     pub fn mxGetComplexSingles(arg1: *const mxArray) -> *mut mxComplexSingle;
-    #[link_name = "\u{1}mxSetComplexSingles_800"]
+    #[link_name = "mxSetComplexSingles_800"]
     pub fn mxSetComplexSingles(
         arg1: *mut mxArray,
         arg2: *mut mxComplexSingle,
     ) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetInt8s_800"]
+    #[link_name = "mxGetInt8s_800"]
     pub fn mxGetInt8s(arg1: *const mxArray) -> *mut i8;
-    #[link_name = "\u{1}mxSetInt8s_800"]
+    #[link_name = "mxSetInt8s_800"]
     pub fn mxSetInt8s(arg1: *mut mxArray, arg2: *mut i8) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetComplexInt8s_800"]
+    #[link_name = "mxGetComplexInt8s_800"]
     pub fn mxGetComplexInt8s(arg1: *const mxArray) -> *mut mxComplexInt8;
-    #[link_name = "\u{1}mxSetComplexInt8s_800"]
+    #[link_name = "mxSetComplexInt8s_800"]
     pub fn mxSetComplexInt8s(arg1: *mut mxArray, arg2: *mut mxComplexInt8) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetUint8s_800"]
+    #[link_name = "mxGetUint8s_800"]
     pub fn mxGetUint8s(arg1: *const mxArray) -> *mut u8;
-    #[link_name = "\u{1}mxSetUint8s_800"]
+    #[link_name = "mxSetUint8s_800"]
     pub fn mxSetUint8s(arg1: *mut mxArray, arg2: *mut u8) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetComplexUint8s_800"]
+    #[link_name = "mxGetComplexUint8s_800"]
     pub fn mxGetComplexUint8s(arg1: *const mxArray) -> *mut mxComplexUint8;
-    #[link_name = "\u{1}mxSetComplexUint8s_800"]
+    #[link_name = "mxSetComplexUint8s_800"]
     pub fn mxSetComplexUint8s(arg1: *mut mxArray, arg2: *mut mxComplexUint8) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetInt16s_800"]
+    #[link_name = "mxGetInt16s_800"]
     pub fn mxGetInt16s(arg1: *const mxArray) -> *mut i16;
-    #[link_name = "\u{1}mxSetInt16s_800"]
+    #[link_name = "mxSetInt16s_800"]
     pub fn mxSetInt16s(arg1: *mut mxArray, arg2: *mut i16) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetComplexInt16s_800"]
+    #[link_name = "mxGetComplexInt16s_800"]
     pub fn mxGetComplexInt16s(arg1: *const mxArray) -> *mut mxComplexInt16;
-    #[link_name = "\u{1}mxSetComplexInt16s_800"]
+    #[link_name = "mxSetComplexInt16s_800"]
     pub fn mxSetComplexInt16s(arg1: *mut mxArray, arg2: *mut mxComplexInt16) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetUint16s_800"]
+    #[link_name = "mxGetUint16s_800"]
     pub fn mxGetUint16s(arg1: *const mxArray) -> *mut u16;
-    #[link_name = "\u{1}mxSetUint16s_800"]
+    #[link_name = "mxSetUint16s_800"]
     pub fn mxSetUint16s(arg1: *mut mxArray, arg2: *mut u16) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetComplexUint16s_800"]
+    #[link_name = "mxGetComplexUint16s_800"]
     pub fn mxGetComplexUint16s(arg1: *const mxArray) -> *mut mxComplexUint16;
-    #[link_name = "\u{1}mxSetComplexUint16s_800"]
+    #[link_name = "mxSetComplexUint16s_800"]
     pub fn mxSetComplexUint16s(
         arg1: *mut mxArray,
         arg2: *mut mxComplexUint16,
     ) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetInt32s_800"]
+    #[link_name = "mxGetInt32s_800"]
     pub fn mxGetInt32s(arg1: *const mxArray) -> *mut i32;
-    #[link_name = "\u{1}mxSetInt32s_800"]
+    #[link_name = "mxSetInt32s_800"]
     pub fn mxSetInt32s(arg1: *mut mxArray, arg2: *mut i32) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetComplexInt32s_800"]
+    #[link_name = "mxGetComplexInt32s_800"]
     pub fn mxGetComplexInt32s(arg1: *const mxArray) -> *mut mxComplexInt32;
-    #[link_name = "\u{1}mxSetComplexInt32s_800"]
+    #[link_name = "mxSetComplexInt32s_800"]
     pub fn mxSetComplexInt32s(arg1: *mut mxArray, arg2: *mut mxComplexInt32) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetUint32s_800"]
+    #[link_name = "mxGetUint32s_800"]
     pub fn mxGetUint32s(arg1: *const mxArray) -> *mut u32;
-    #[link_name = "\u{1}mxSetUint32s_800"]
+    #[link_name = "mxSetUint32s_800"]
     pub fn mxSetUint32s(arg1: *mut mxArray, arg2: *mut u32) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetComplexUint32s_800"]
+    #[link_name = "mxGetComplexUint32s_800"]
     pub fn mxGetComplexUint32s(arg1: *const mxArray) -> *mut mxComplexUint32;
-    #[link_name = "\u{1}mxSetComplexUint32s_800"]
+    #[link_name = "mxSetComplexUint32s_800"]
     pub fn mxSetComplexUint32s(
         arg1: *mut mxArray,
         arg2: *mut mxComplexUint32,
     ) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetInt64s_800"]
+    #[link_name = "mxGetInt64s_800"]
     pub fn mxGetInt64s(arg1: *const mxArray) -> *mut i64;
-    #[link_name = "\u{1}mxSetInt64s_800"]
+    #[link_name = "mxSetInt64s_800"]
     pub fn mxSetInt64s(arg1: *mut mxArray, arg2: *mut i64) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetComplexInt64s_800"]
+    #[link_name = "mxGetComplexInt64s_800"]
     pub fn mxGetComplexInt64s(arg1: *const mxArray) -> *mut mxComplexInt64;
-    #[link_name = "\u{1}mxSetComplexInt64s_800"]
+    #[link_name = "mxSetComplexInt64s_800"]
     pub fn mxSetComplexInt64s(arg1: *mut mxArray, arg2: *mut mxComplexInt64) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetUint64s_800"]
+    #[link_name = "mxGetUint64s_800"]
     pub fn mxGetUint64s(arg1: *const mxArray) -> *mut u64;
-    #[link_name = "\u{1}mxSetUint64s_800"]
+    #[link_name = "mxSetUint64s_800"]
     pub fn mxSetUint64s(arg1: *mut mxArray, arg2: *mut u64) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxGetComplexUint64s_800"]
+    #[link_name = "mxGetComplexUint64s_800"]
     pub fn mxGetComplexUint64s(arg1: *const mxArray) -> *mut mxComplexUint64;
-    #[link_name = "\u{1}mxSetComplexUint64s_800"]
+    #[link_name = "mxSetComplexUint64s_800"]
     pub fn mxSetComplexUint64s(
         arg1: *mut mxArray,
         arg2: *mut mxComplexUint64,
     ) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxMakeArrayReal_800"]
+    #[link_name = "mxMakeArrayReal_800"]
     pub fn mxMakeArrayReal(arg1: *mut mxArray) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxMakeArrayComplex_800"]
+    #[link_name = "mxMakeArrayComplex_800"]
     pub fn mxMakeArrayComplex(arg1: *mut mxArray) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mexErrMsgTxt_800"]
+    #[link_name = "mexErrMsgTxt_800"]
     pub fn mexErrMsgTxt(error_msg: *const ::core::ffi::c_char);
-    #[link_name = "\u{1}mexErrMsgIdAndTxt_800"]
+    #[link_name = "mexErrMsgIdAndTxt_800"]
     pub fn mexErrMsgIdAndTxt(
         identifier: *const ::core::ffi::c_char,
         err_msg: *const ::core::ffi::c_char,
         ...
     );
-    #[link_name = "\u{1}mexWarnMsgTxt_800"]
+    #[link_name = "mexWarnMsgTxt_800"]
     pub fn mexWarnMsgTxt(warn_msg: *const ::core::ffi::c_char);
-    #[link_name = "\u{1}mexWarnMsgIdAndTxt_800"]
+    #[link_name = "mexWarnMsgIdAndTxt_800"]
     pub fn mexWarnMsgIdAndTxt(
         identifier: *const ::core::ffi::c_char,
         warn_msg: *const ::core::ffi::c_char,
         ...
     );
-    #[link_name = "\u{1}mexPrintf_800"]
+    #[link_name = "mexPrintf_800"]
     pub fn mexPrintf(fmt: *const ::core::ffi::c_char, ...) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mexMakeArrayPersistent_800"]
+    #[link_name = "mexMakeArrayPersistent_800"]
     pub fn mexMakeArrayPersistent(pa: *mut mxArray);
-    #[link_name = "\u{1}mexMakeMemoryPersistent_800"]
+    #[link_name = "mexMakeMemoryPersistent_800"]
     pub fn mexMakeMemoryPersistent(ptr: *mut ::core::ffi::c_void);
-    #[link_name = "\u{1}mexCallMATLAB_800"]
+    #[link_name = "mexCallMATLAB_800"]
     pub fn mexCallMATLAB(
         nlhs: ::core::ffi::c_int,
         plhs: *mut *mut mxArray,
@@ -559,7 +559,7 @@ extern "C" {
         prhs: *mut *mut mxArray,
         fcn_name: *const ::core::ffi::c_char,
     ) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mexCallMATLABWithTrap_800"]
+    #[link_name = "mexCallMATLABWithTrap_800"]
     pub fn mexCallMATLABWithTrap(
         nlhs: ::core::ffi::c_int,
         plhs: *mut *mut mxArray,
@@ -567,44 +567,44 @@ extern "C" {
         prhs: *mut *mut mxArray,
         fcn_name: *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mexPrintAssertion_800"]
+    #[link_name = "mexPrintAssertion_800"]
     pub fn mexPrintAssertion(
         test: *const ::core::ffi::c_char,
         fname: *const ::core::ffi::c_char,
         linenum: ::core::ffi::c_int,
         message: *const ::core::ffi::c_char,
     );
-    #[link_name = "\u{1}mexIsGlobal_800"]
+    #[link_name = "mexIsGlobal_800"]
     pub fn mexIsGlobal(pA: *const mxArray) -> bool;
-    #[link_name = "\u{1}mexPutVariable_800"]
+    #[link_name = "mexPutVariable_800"]
     pub fn mexPutVariable(
         workspace: *const ::core::ffi::c_char,
         name: *const ::core::ffi::c_char,
         parray: *const mxArray,
     ) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mexGetVariablePtr_800"]
+    #[link_name = "mexGetVariablePtr_800"]
     pub fn mexGetVariablePtr(
         workspace: *const ::core::ffi::c_char,
         name: *const ::core::ffi::c_char,
     ) -> *const mxArray;
-    #[link_name = "\u{1}mexGetVariable_800"]
+    #[link_name = "mexGetVariable_800"]
     pub fn mexGetVariable(
         workspace: *const ::core::ffi::c_char,
         name: *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mexLock_800"]
+    #[link_name = "mexLock_800"]
     pub fn mexLock();
-    #[link_name = "\u{1}mexUnlock_800"]
+    #[link_name = "mexUnlock_800"]
     pub fn mexUnlock();
-    #[link_name = "\u{1}mexIsLocked_800"]
+    #[link_name = "mexIsLocked_800"]
     pub fn mexIsLocked() -> bool;
-    #[link_name = "\u{1}mexFunctionName_800"]
+    #[link_name = "mexFunctionName_800"]
     pub fn mexFunctionName() -> *const ::core::ffi::c_char;
-    #[link_name = "\u{1}mexEvalString_800"]
+    #[link_name = "mexEvalString_800"]
     pub fn mexEvalString(str_: *const ::core::ffi::c_char) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mexEvalStringWithTrap_800"]
+    #[link_name = "mexEvalStringWithTrap_800"]
     pub fn mexEvalStringWithTrap(str_: *const ::core::ffi::c_char) -> *mut mxArray;
-    #[link_name = "\u{1}mexAtExit_800"]
+    #[link_name = "mexAtExit_800"]
     pub fn mexAtExit(exit_fcn: mex_exit_fn) -> ::core::ffi::c_int;
     pub fn mexFunction(
         nlhs: ::core::ffi::c_int,
@@ -612,46 +612,46 @@ extern "C" {
         nrhs: ::core::ffi::c_int,
         prhs: *mut *const mxArray,
     );
-    #[link_name = "\u{1}matOpen_800"]
+    #[link_name = "matOpen_800"]
     pub fn matOpen(
         filename: *const ::core::ffi::c_char,
         mode: *const ::core::ffi::c_char,
     ) -> *mut MATFile;
-    #[link_name = "\u{1}matClose_800"]
+    #[link_name = "matClose_800"]
     pub fn matClose(pMF: *mut MATFile) -> matError;
-    #[link_name = "\u{1}matGetErrno_800"]
+    #[link_name = "matGetErrno_800"]
     pub fn matGetErrno(pMF: *mut MATFile) -> matError;
-    #[link_name = "\u{1}matGetFp_800"]
+    #[link_name = "matGetFp_800"]
     pub fn matGetFp(pMF: *mut MATFile) -> *mut FILE;
-    #[link_name = "\u{1}matPutVariable_800"]
+    #[link_name = "matPutVariable_800"]
     pub fn matPutVariable(
         pMF: *mut MATFile,
         name: *const ::core::ffi::c_char,
         pA: *const mxArray,
     ) -> matError;
-    #[link_name = "\u{1}matPutVariableAsGlobal_800"]
+    #[link_name = "matPutVariableAsGlobal_800"]
     pub fn matPutVariableAsGlobal(
         pMF: *mut MATFile,
         name: *const ::core::ffi::c_char,
         pA: *const mxArray,
     ) -> matError;
-    #[link_name = "\u{1}matGetVariable_800"]
+    #[link_name = "matGetVariable_800"]
     pub fn matGetVariable(pMF: *mut MATFile, name: *const ::core::ffi::c_char) -> *mut mxArray;
-    #[link_name = "\u{1}matGetNextVariable_800"]
+    #[link_name = "matGetNextVariable_800"]
     pub fn matGetNextVariable(
         pMF: *mut MATFile,
         nameptr: *mut *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}matGetNextVariableInfo_800"]
+    #[link_name = "matGetNextVariableInfo_800"]
     pub fn matGetNextVariableInfo(
         pMF: *mut MATFile,
         nameptr: *mut *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}matGetVariableInfo_800"]
+    #[link_name = "matGetVariableInfo_800"]
     pub fn matGetVariableInfo(pMF: *mut MATFile, name: *const ::core::ffi::c_char) -> *mut mxArray;
-    #[link_name = "\u{1}matDeleteVariable_800"]
+    #[link_name = "matDeleteVariable_800"]
     pub fn matDeleteVariable(pMF: *mut MATFile, name: *const ::core::ffi::c_char) -> matError;
-    #[link_name = "\u{1}matGetDir_800"]
+    #[link_name = "matGetDir_800"]
     pub fn matGetDir(
         pMF: *mut MATFile,
         num: *mut ::core::ffi::c_int,

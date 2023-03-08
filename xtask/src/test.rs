@@ -4,7 +4,6 @@ use anyhow::Ok;
 const TEST_EXAMPLES: &[&str] = &["array-product", "mex-call-matlab", "array-size"];
 
 pub fn test(_arguments: pico_args::Arguments) -> anyhow::Result<()> {
-
     // Make sure the most recent version gets run
     std::process::Command::new("cargo")
         .arg("clean")
@@ -78,7 +77,7 @@ fn dlls_to_mex(path_to_dlls: &std::path::Path) -> anyhow::Result<()> {
         ("lib", (".so", ".mexa64"))
     } else if cfg!(target_os = "macos") {
         // (dynamic link library prefix , (".dylib", ".mexmeci64"))
-        unimplemented!("MacOS currently not tested.")
+        ("lib", (".dylib", ".mexmeci64"))
     } else {
         panic!("Unknown target os")
     };

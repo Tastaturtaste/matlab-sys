@@ -87,30 +87,30 @@ extern "C" {
     pub fn mxCalloc(n: usize, size: usize) -> *mut ::core::ffi::c_void;
     pub fn mxFree(ptr: *mut ::core::ffi::c_void);
     pub fn mxRealloc(ptr: *mut ::core::ffi::c_void, size: usize) -> *mut ::core::ffi::c_void;
-    #[link_name = "\u{1}mxGetNumberOfDimensions_730"]
+    #[link_name = "mxGetNumberOfDimensions_730"]
     pub fn mxGetNumberOfDimensions(pa: *const mxArray) -> mwSize;
-    #[link_name = "\u{1}mxGetDimensions_730"]
+    #[link_name = "mxGetDimensions_730"]
     pub fn mxGetDimensions(pa: *const mxArray) -> *const mwSize;
     pub fn mxGetM(pa: *const mxArray) -> usize;
-    #[link_name = "\u{1}mxGetIr_730"]
+    #[link_name = "mxGetIr_730"]
     pub fn mxGetIr(pa: *const mxArray) -> *mut mwIndex;
-    #[link_name = "\u{1}mxGetJc_730"]
+    #[link_name = "mxGetJc_730"]
     pub fn mxGetJc(pa: *const mxArray) -> *mut mwIndex;
-    #[link_name = "\u{1}mxGetNzmax_730"]
+    #[link_name = "mxGetNzmax_730"]
     pub fn mxGetNzmax(pa: *const mxArray) -> mwSize;
-    #[link_name = "\u{1}mxSetNzmax_730"]
+    #[link_name = "mxSetNzmax_730"]
     pub fn mxSetNzmax(pa: *mut mxArray, nzmax: mwSize);
     pub fn mxGetFieldNameByNumber(
         pa: *const mxArray,
         n: ::core::ffi::c_int,
     ) -> *const ::core::ffi::c_char;
-    #[link_name = "\u{1}mxGetFieldByNumber_730"]
+    #[link_name = "mxGetFieldByNumber_730"]
     pub fn mxGetFieldByNumber(
         pa: *const mxArray,
         i: mwIndex,
         fieldnum: ::core::ffi::c_int,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxGetCell_730"]
+    #[link_name = "mxGetCell_730"]
     pub fn mxGetCell(pa: *const mxArray, i: mwIndex) -> *mut mxArray;
     pub fn mxGetClassID(pa: *const mxArray) -> mxClassID::Type;
     pub fn mxGetData(pa: *const mxArray) -> *mut ::core::ffi::c_void;
@@ -147,7 +147,7 @@ extern "C" {
     pub fn mxGetScalar(pa: *const mxArray) -> f64;
     pub fn mxIsFromGlobalWS(pa: *const mxArray) -> bool;
     pub fn mxSetFromGlobalWS(pa: *mut mxArray, global: bool);
-    #[link_name = "\u{1}mxSetM_730"]
+    #[link_name = "mxSetM_730"]
     pub fn mxSetM(pa: *mut mxArray, m: mwSize);
     pub fn mxGetN(pa: *const mxArray) -> usize;
     pub fn mxIsEmpty(pa: *const mxArray) -> bool;
@@ -155,49 +155,49 @@ extern "C" {
         pa: *const mxArray,
         name: *const ::core::ffi::c_char,
     ) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxSetIr_730"]
+    #[link_name = "mxSetIr_730"]
     pub fn mxSetIr(pa: *mut mxArray, newir: *mut mwIndex);
-    #[link_name = "\u{1}mxSetJc_730"]
+    #[link_name = "mxSetJc_730"]
     pub fn mxSetJc(pa: *mut mxArray, newjc: *mut mwIndex);
     pub fn mxGetPr(pa: *const mxArray) -> *mut f64;
     pub fn mxSetPr(pa: *mut mxArray, newdata: *mut f64);
     pub fn mxGetElementSize(pa: *const mxArray) -> usize;
-    #[link_name = "\u{1}mxCalcSingleSubscript_730"]
+    #[link_name = "mxCalcSingleSubscript_730"]
     pub fn mxCalcSingleSubscript(
         pa: *const mxArray,
         nsubs: mwSize,
         subs: *const mwIndex,
     ) -> mwIndex;
     pub fn mxGetNumberOfFields(pa: *const mxArray) -> ::core::ffi::c_int;
-    #[link_name = "\u{1}mxSetCell_730"]
+    #[link_name = "mxSetCell_730"]
     pub fn mxSetCell(pa: *mut mxArray, i: mwIndex, value: *mut mxArray);
-    #[link_name = "\u{1}mxSetFieldByNumber_730"]
+    #[link_name = "mxSetFieldByNumber_730"]
     pub fn mxSetFieldByNumber(
         pa: *mut mxArray,
         i: mwIndex,
         fieldnum: ::core::ffi::c_int,
         value: *mut mxArray,
     );
-    #[link_name = "\u{1}mxGetField_730"]
+    #[link_name = "mxGetField_730"]
     pub fn mxGetField(
         pa: *const mxArray,
         i: mwIndex,
         fieldname: *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxSetField_730"]
+    #[link_name = "mxSetField_730"]
     pub fn mxSetField(
         pa: *mut mxArray,
         i: mwIndex,
         fieldname: *const ::core::ffi::c_char,
         value: *mut mxArray,
     );
-    #[link_name = "\u{1}mxGetProperty_730"]
+    #[link_name = "mxGetProperty_730"]
     pub fn mxGetProperty(
         pa: *const mxArray,
         i: mwIndex,
         propname: *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxSetProperty_730"]
+    #[link_name = "mxSetProperty_730"]
     pub fn mxSetProperty(
         pa: *mut mxArray,
         i: mwIndex,
@@ -206,7 +206,7 @@ extern "C" {
     );
     pub fn mxGetClassName(pa: *const mxArray) -> *const ::core::ffi::c_char;
     pub fn mxIsClass(pa: *const mxArray, name: *const ::core::ffi::c_char) -> bool;
-    #[link_name = "\u{1}mxCreateNumericMatrix_730"]
+    #[link_name = "mxCreateNumericMatrix_730"]
     pub fn mxCreateNumericMatrix(
         m: mwSize,
         n: mwSize,
@@ -225,47 +225,47 @@ extern "C" {
         classid: mxClassID::Type,
         flag: mxComplexity::Type,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxSetN_730"]
+    #[link_name = "mxSetN_730"]
     pub fn mxSetN(pa: *mut mxArray, n: mwSize);
-    #[link_name = "\u{1}mxSetDimensions_730"]
+    #[link_name = "mxSetDimensions_730"]
     pub fn mxSetDimensions(
         pa: *mut mxArray,
         pdims: *const mwSize,
         ndims: mwSize,
     ) -> ::core::ffi::c_int;
     pub fn mxDestroyArray(pa: *mut mxArray);
-    #[link_name = "\u{1}mxCreateNumericArray_730"]
+    #[link_name = "mxCreateNumericArray_730"]
     pub fn mxCreateNumericArray(
         ndim: mwSize,
         dims: *const mwSize,
         classid: mxClassID::Type,
         flag: mxComplexity::Type,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateCharArray_730"]
+    #[link_name = "mxCreateCharArray_730"]
     pub fn mxCreateCharArray(ndim: mwSize, dims: *const mwSize) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateDoubleMatrix_730"]
+    #[link_name = "mxCreateDoubleMatrix_730"]
     pub fn mxCreateDoubleMatrix(m: mwSize, n: mwSize, flag: mxComplexity::Type) -> *mut mxArray;
     pub fn mxGetLogicals(pa: *const mxArray) -> *mut mxLogical;
-    #[link_name = "\u{1}mxCreateLogicalArray_730"]
+    #[link_name = "mxCreateLogicalArray_730"]
     pub fn mxCreateLogicalArray(ndim: mwSize, dims: *const mwSize) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateLogicalMatrix_730"]
+    #[link_name = "mxCreateLogicalMatrix_730"]
     pub fn mxCreateLogicalMatrix(m: mwSize, n: mwSize) -> *mut mxArray;
     pub fn mxCreateLogicalScalar(value: bool) -> *mut mxArray;
     pub fn mxIsLogicalScalar(pa: *const mxArray) -> bool;
     pub fn mxIsLogicalScalarTrue(pa: *const mxArray) -> bool;
     pub fn mxCreateDoubleScalar(value: f64) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateSparse_730"]
+    #[link_name = "mxCreateSparse_730"]
     pub fn mxCreateSparse(
         m: mwSize,
         n: mwSize,
         nzmax: mwSize,
         flag: mxComplexity::Type,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateSparseLogicalMatrix_730"]
+    #[link_name = "mxCreateSparseLogicalMatrix_730"]
     pub fn mxCreateSparseLogicalMatrix(m: mwSize, n: mwSize, nzmax: mwSize) -> *mut mxArray;
-    #[link_name = "\u{1}mxGetNChars_730"]
+    #[link_name = "mxGetNChars_730"]
     pub fn mxGetNChars(pa: *const mxArray, buf: *mut ::core::ffi::c_char, nChars: mwSize);
-    #[link_name = "\u{1}mxGetString_730"]
+    #[link_name = "mxGetString_730"]
     pub fn mxGetString(
         pa: *const mxArray,
         buf: *mut ::core::ffi::c_char,
@@ -273,26 +273,26 @@ extern "C" {
     ) -> ::core::ffi::c_int;
     pub fn mxArrayToString(pa: *const mxArray) -> *mut ::core::ffi::c_char;
     pub fn mxArrayToUTF8String(pa: *const mxArray) -> *mut ::core::ffi::c_char;
-    #[link_name = "\u{1}mxCreateStringFromNChars_730"]
+    #[link_name = "mxCreateStringFromNChars_730"]
     pub fn mxCreateStringFromNChars(str_: *const ::core::ffi::c_char, n: mwSize) -> *mut mxArray;
     pub fn mxCreateString(str_: *const ::core::ffi::c_char) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateCharMatrixFromStrings_730"]
+    #[link_name = "mxCreateCharMatrixFromStrings_730"]
     pub fn mxCreateCharMatrixFromStrings(
         m: mwSize,
         str_: *mut *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateCellMatrix_730"]
+    #[link_name = "mxCreateCellMatrix_730"]
     pub fn mxCreateCellMatrix(m: mwSize, n: mwSize) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateCellArray_730"]
+    #[link_name = "mxCreateCellArray_730"]
     pub fn mxCreateCellArray(ndim: mwSize, dims: *const mwSize) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateStructMatrix_730"]
+    #[link_name = "mxCreateStructMatrix_730"]
     pub fn mxCreateStructMatrix(
         m: mwSize,
         n: mwSize,
         nfields: ::core::ffi::c_int,
         fieldnames: *mut *const ::core::ffi::c_char,
     ) -> *mut mxArray;
-    #[link_name = "\u{1}mxCreateStructArray_730"]
+    #[link_name = "mxCreateStructArray_730"]
     pub fn mxCreateStructArray(
         ndim: mwSize,
         dims: *const mwSize,

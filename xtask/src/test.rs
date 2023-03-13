@@ -88,8 +88,8 @@ fn dlls_to_mex(path_to_dlls: &std::path::Path) -> anyhow::Result<()> {
     } else if cfg!(target_os = "linux") {
         ("lib", (".so", ".mexa64"))
     } else if cfg!(target_os = "macos") {
-        // (dynamic link library prefix , (".dylib", ".mexmeci64"))
-        ("lib", (".dylib", ".mexmeci64"))
+        // (dynamic link library prefix , (".dylib", ".mexmaci64"))
+        ("lib", (".dylib", ".mexmaci64"))
     } else {
         panic!("Unknown target os")
     };

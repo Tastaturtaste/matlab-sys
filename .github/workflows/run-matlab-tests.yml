@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         matlab_release: [latest] # Check on earliest available and latest release
         include:
         # Set minimum versions of matlab that are available in CI for tests. Windows needs special handling.
@@ -22,6 +22,8 @@ jobs:
             matlab_release: R2020a
           - os: windows-latest
             matlab_release: R2021a
+          - os: macos-latest
+            matlab_release: R2020a
 
     steps:
       - name: Check out repository

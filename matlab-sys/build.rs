@@ -1,13 +1,15 @@
 //! Currently all environment variables are assumed to be and contain valid utf-8. If this does not apply to your use-case please consider reporting this as an issue at https://github.com/Tastaturtaste/matlab-sys/issues.
 //! In the meantime this build script can be circumvented by using a cargo .config file with the links key. https://doc.rust-lang.org/cargo/reference/config.html#targettriplelinks.
 
+use anyhow::{Result, anyhow};
+
 const LINUX_LINKNAMES: &[&str] = &["mex", "mx", "mat", "eng"];
 const WIN_LINKNAMES: &[&str] = &["libmex", "libmx", "libmat", "libeng"];
 
-fn main() {
+fn main() -> Result<()> {
     // Check if we run on docs.rs and return early. We don't need to link to build documentation.
     if std::env::var("DOCS_RS").is_ok(){
-        return
+        return Ok(())
     }
     // Check which platform we run on.
     let platform = match std::env::var("CARGO_CFG_TARGET_OS")
@@ -24,12 +26,12 @@ fn main() {
     let target_env =
         std::env::var("CARGO_CFG_TARGET_ENV").expect("'CARGO_CFG_TARGET_ENV' not found");
 
-    let matlabpath = get_matlab_path();
+    let matlabpath = get_matlab_path()?;
     // For better error messages check if the path to the Matlab installation actually exists and is readable.
     assert!(
         std::path::Path::new(&matlabpath)
             .try_exists()
-            .unwrap_or_else(|_| panic!("Cannot check existence of path {matlabpath}")),
+            .unwrap_or_else(|_| panic!("Cannot check existence of path {matlabpath}. Maybe check the required permissions?")),
         "The path to the matlab installation does not exist: {matlabpath}"
     );
 
@@ -64,24 +66,17 @@ fn main() {
         }
         OS::MacOS => unimplemented!(),
     }
+    Ok(())
 }
 
 // Get the path to the matlab installation to link against. Prioritize an explicitly set path, otherwise try to run Matlab and ask it for its directory.
-fn get_matlab_path() -> String {
+fn get_matlab_path() -> Result<String> {
     if let Ok(path) = std::env::var("MATLABPATH") {
-        path
-    } else if let Ok(cmd_output) = std::process::Command::new("matlab")
-        .arg("-batch")
-        .arg("disp(matlabroot)")
-        .output()
-    {
-        String::from_utf8(cmd_output.stdout)
-            .expect("The path to the Matlab installation is not valid utf-8")
-            .trim() // Strip the newline matlab appends when using the disp() function
-            .to_owned()
-    } else {
-        panic!("Matlab installation to link against not found. Specify the path to the installation to link against in the environment variable 'MATLABPATH' or make sure Matlab is callable from the command line.")
-    }
+        return Ok(path)
+    } 
+    let matlab_binary_path = which::which("matlab")?;
+    let matlab_directory = matlab_binary_path.as_path().parent().and_then(|path| path.parent()).ok_or_else(|| anyhow!("Matlab directory should be two levels above the path to the matlab binary but was not: {matlab_binary_path:?}"))?;
+    matlab_directory.as_os_str().to_str().map(|s| s.to_owned()).ok_or_else(|| anyhow!("Matlab directory is not valid unicode: {}", matlab_directory.to_string_lossy()))
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

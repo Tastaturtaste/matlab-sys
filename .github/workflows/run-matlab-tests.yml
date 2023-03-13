@@ -1,0 +1,45 @@
+# This workflow tests the bindings using the xtask test functionality. 
+name: Run Matlab tests
+
+
+on: [workflow_dispatch, push, pull_request]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  xtask-test:
+    runs-on: ${{matrix.os}}
+  
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        matlab_release: [latest] # Check on earliest available and latest release
+        include:
+        # Set minimum versions of matlab that are available in CI for tests. Windows needs special handling.
+          - os: ubuntu-latest
+            matlab_release: R2020a
+          - os: windows-latest
+            matlab_release: R2021a
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: ⚡ Cache cargo
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v1
+        with:
+           release: ${{matrix.matlab_release}}
+      
+      - name: Compile and test
+        run: cargo xtask test
